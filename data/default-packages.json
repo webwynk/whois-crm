@@ -1,0 +1,227 @@
+{
+  "packages": [
+    {
+      "name": "WHOIS History Database",
+      "slug": "whois-history",
+      "type": "global_service",
+      "service_type": "whois_history",
+      "description": "Access historical WHOIS ownership records and changes over time. Widely used for cybersecurity, brand protection, and domain research.",
+      "countries": null,
+      "tlds": null,
+      "features": [
+        "Full ownership change history",
+        "Brand protection alerts",
+        "API + bulk export access"
+      ],
+      "pricing": [
+        { "billing_cycle": "monthly", "price": 199.00, "currency": "USD" },
+        { "billing_cycle": "annually", "price": 1999.00, "currency": "USD" }
+      ],
+      "sort_order": 1
+    },
+    {
+      "name": "Domain Lead Generation",
+      "slug": "lead-generation",
+      "type": "global_service",
+      "service_type": "lead_generation",
+      "description": "Generate sales leads from newly registered businesses and domains.",
+      "countries": null,
+      "tlds": null,
+      "features": [
+        "Business emails",
+        "Domain owner data",
+        "Industry categorization",
+        "Geographic filtering"
+      ],
+      "pricing": [
+        { "billing_cycle": "monthly", "price": 129.00, "currency": "USD" },
+        { "billing_cycle": "annually", "price": 1299.00, "currency": "USD" }
+      ],
+      "sort_order": 2
+    },
+    {
+      "name": "Expiring Domains",
+      "slug": "expiring-domains",
+      "type": "global_service",
+      "service_type": "expiring_domains",
+      "description": "Monitor domains approaching expiration before anyone else does.",
+      "countries": null,
+      "tlds": null,
+      "features": [
+        "Daily updates",
+        "Auction monitoring",
+        "Domain valuation indicators"
+      ],
+      "pricing": [
+        { "billing_cycle": "monthly", "price": 89.00, "currency": "USD" },
+        { "billing_cycle": "annually", "price": 899.00, "currency": "USD" }
+      ],
+      "sort_order": 3
+    },
+    {
+      "name": "Bulk Domain Lookup Tool",
+      "slug": "bulk-lookup",
+      "type": "global_service",
+      "service_type": "bulk_lookup",
+      "description": "Look up huge domain lists in a single pass, ready for export.",
+      "countries": null,
+      "tlds": null,
+      "features": [
+        "Upload up to 100,000 domains",
+        "Bulk WHOIS retrieval",
+        "CSV exports & API"
+      ],
+      "pricing": [
+        { "billing_cycle": "monthly", "price": 49.00, "currency": "USD" },
+        { "billing_cycle": "annually", "price": 480.00, "currency": "USD" }
+      ],
+      "sort_order": 4
+    },
+    {
+      "name": "Enterprise Data License",
+      "slug": "enterprise",
+      "type": "global_service",
+      "service_type": "enterprise",
+      "description": "Unlimited access with a dedicated team behind you.",
+      "countries": null,
+      "tlds": null,
+      "features": [
+        "Unlimited API access",
+        "Dedicated account manager",
+        "Priority support & custom feeds",
+        "White-label access"
+      ],
+      "pricing": [
+        { "billing_cycle": "monthly", "price": 999.00, "currency": "USD" },
+        { "billing_cycle": "annually", "price": 9999.00, "currency": "USD" }
+      ],
+      "sort_order": 5
+    },
+    {
+      "name": "USA Domains",
+      "slug": "country-us",
+      "type": "country_specific",
+      "service_type": "country_data",
+      "description": "Targeted WHOIS datasets for US-registered domains.",
+      "countries": ["US"],
+      "tlds": [".com", ".us", ".net", ".org"],
+      "features": ["Regional WHOIS data", "Daily updates", "CSV export"],
+      "pricing": [
+        { "billing_cycle": "monthly", "price": 79.00, "currency": "USD" }
+      ],
+      "sort_order": 10
+    },
+    {
+      "name": "India Domains",
+      "slug": "country-in",
+      "type": "country_specific",
+      "service_type": "country_data",
+      "description": "Targeted WHOIS datasets for India-registered domains.",
+      "countries": ["IN"],
+      "tlds": [".in", ".co.in", ".net.in", ".org.in"],
+      "features": ["Regional WHOIS data", "Daily updates", "CSV export"],
+      "pricing": [
+        { "billing_cycle": "monthly", "price": 49.00, "currency": "USD" }
+      ],
+      "sort_order": 11
+    },
+    {
+      "name": "UK Domains",
+      "slug": "country-uk",
+      "type": "country_specific",
+      "service_type": "country_data",
+      "description": "Targeted WHOIS datasets for UK-registered domains.",
+      "countries": ["GB"],
+      "tlds": [".uk", ".co.uk", ".org.uk"],
+      "features": ["Regional WHOIS data", "Daily updates", "CSV export"],
+      "pricing": [
+        { "billing_cycle": "monthly", "price": 49.00, "currency": "USD" }
+      ],
+      "sort_order": 12
+    },
+    {
+      "name": "Canada Domains",
+      "slug": "country-ca",
+      "type": "country_specific",
+      "service_type": "country_data",
+      "description": "Targeted WHOIS datasets for Canada-registered domains.",
+      "countries": ["CA"],
+      "tlds": [".ca"],
+      "features": ["Regional WHOIS data", "Daily updates", "CSV export"],
+      "pricing": [
+        { "billing_cycle": "monthly", "price": 49.00, "currency": "USD" }
+      ],
+      "sort_order": 13
+    },
+    {
+      "name": "UAE Domains",
+      "slug": "country-ae",
+      "type": "country_specific",
+      "service_type": "country_data",
+      "description": "Targeted WHOIS datasets for UAE-registered domains.",
+      "countries": ["AE"],
+      "tlds": [".ae"],
+      "features": ["Regional WHOIS data", "Daily updates", "CSV export"],
+      "pricing": [
+        { "billing_cycle": "monthly", "price": 49.00, "currency": "USD" }
+      ],
+      "sort_order": 14
+    },
+    {
+      "name": "Australia Domains",
+      "slug": "country-au",
+      "type": "country_specific",
+      "service_type": "country_data",
+      "description": "Targeted WHOIS datasets for Australia-registered domains.",
+      "countries": ["AU"],
+      "tlds": [".au", ".com.au", ".net.au"],
+      "features": ["Regional WHOIS data", "Daily updates", "CSV export"],
+      "pricing": [
+        { "billing_cycle": "monthly", "price": 49.00, "currency": "USD" }
+      ],
+      "sort_order": 15
+    },
+    {
+      "name": "Germany Domains",
+      "slug": "country-de",
+      "type": "country_specific",
+      "service_type": "country_data",
+      "description": "Targeted WHOIS datasets for Germany-registered domains.",
+      "countries": ["DE"],
+      "tlds": [".de"],
+      "features": ["Regional WHOIS data", "Daily updates", "CSV export"],
+      "pricing": [
+        { "billing_cycle": "monthly", "price": 49.00, "currency": "USD" }
+      ],
+      "sort_order": 16
+    },
+    {
+      "name": "France Domains",
+      "slug": "country-fr",
+      "type": "country_specific",
+      "service_type": "country_data",
+      "description": "Targeted WHOIS datasets for France-registered domains.",
+      "countries": ["FR"],
+      "tlds": [".fr"],
+      "features": ["Regional WHOIS data", "Daily updates", "CSV export"],
+      "pricing": [
+        { "billing_cycle": "monthly", "price": 49.00, "currency": "USD" }
+      ],
+      "sort_order": 17
+    },
+    {
+      "name": "Brazil Domains",
+      "slug": "country-br",
+      "type": "country_specific",
+      "service_type": "country_data",
+      "description": "Targeted WHOIS datasets for Brazil-registered domains.",
+      "countries": ["BR"],
+      "tlds": [".br", ".com.br"],
+      "features": ["Regional WHOIS data", "Daily updates", "CSV export"],
+      "pricing": [
+        { "billing_cycle": "monthly", "price": 49.00, "currency": "USD" }
+      ],
+      "sort_order": 18
+    }
+  ]
+}

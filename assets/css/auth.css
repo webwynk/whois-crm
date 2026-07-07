@@ -1,0 +1,498 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+
+/* ─── CSS Variables ─────────────────────────────────────────────────────── */
+:root {
+  --color-primary:          #FF6621;
+  --color-primary-dark:     #E5571A;
+  --color-primary-light:    #FF8950;
+  --color-accent:           #FFB020;
+  --color-accent-dark:      #E09A0F;
+  --color-white:            #FFFFFF;
+  --color-black:            #0A0A0B;
+  --color-surface:          #F8F8FA;
+  --color-surface-raised:   #FFFFFF;
+  --color-surface-overlay:  #F2F2F5;
+  --color-border:           #E8E8EF;
+  --color-border-strong:    #D0D0DD;
+  --color-text-primary:     #0A0A0B;
+  --color-text-secondary:   #5C5C6B;
+  --color-text-muted:       #9898A8;
+  --color-text-inverse:     #FFFFFF;
+  --color-success:          #1DB954;
+  --color-warning:          #FFB020;
+  --color-danger:           #E53535;
+  --color-info:             #3B82F6;
+
+  --font-family:            'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --space-1: 4px;   --space-2: 8px;   --space-3: 12px;
+  --space-4: 16px;  --space-5: 20px;  --space-6: 24px;
+  --space-8: 32px;  --space-10: 40px; --space-12: 48px;
+
+  --radius-sm:   4px;   --radius-md:   8px;   --radius-lg: 12px;
+  --radius-xl:   16px;  --radius-2xl:  24px;  --radius-full: 9999px;
+
+  --shadow-sm:  0 1px 2px rgba(10,10,11,.06), 0 1px 3px rgba(10,10,11,.04);
+  --shadow-md:  0 4px 6px rgba(10,10,11,.06), 0 2px 4px rgba(10,10,11,.04);
+  --shadow-lg:  0 10px 15px rgba(10,10,11,.08), 0 4px 6px rgba(10,10,11,.05);
+  --shadow-xl:  0 20px 25px rgba(10,10,11,.10), 0 10px 10px rgba(10,10,11,.04);
+  --shadow-glow-primary: 0 0 0 3px rgba(255,102,33,.20);
+
+  --ease-out:    cubic-bezier(0.0, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast:   150ms;
+  --duration-normal: 250ms;
+  --duration-slow:   400ms;
+}
+
+/* ─── Keyframes ─────────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Auth Page Layout ──────────────────────────────────────────────────── */
+.whoiscrm-auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  background: linear-gradient(135deg, #FFF5F0 0%, #F8F8FA 60%, #FFF8F0 100%);
+  font-family: var(--font-family);
+}
+
+/* Decorative gradient orbs */
+.whoiscrm-auth-page::before,
+.whoiscrm-auth-page::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.whoiscrm-auth-page::before {
+  width: 480px;
+  height: 480px;
+  top: -120px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(255,102,33,.10) 0%, transparent 70%);
+}
+
+.whoiscrm-auth-page::after {
+  width: 360px;
+  height: 360px;
+  bottom: -80px;
+  left: -60px;
+  background: radial-gradient(circle, rgba(255,176,32,.10) 0%, transparent 70%);
+}
+
+/* ─── Auth Card ─────────────────────────────────────────────────────────── */
+.whoiscrm-auth-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  background: var(--color-white);
+  border-radius: 20px;
+  box-shadow: var(--shadow-xl);
+  padding: var(--space-10);
+  animation: scaleIn var(--duration-slow) var(--ease-out) both;
+}
+
+/* ─── Logo / Brand ──────────────────────────────────────────────────────── */
+.whoiscrm-auth-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+
+.whoiscrm-auth-logo {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(255,102,33,.30);
+}
+
+.whoiscrm-auth-logo svg {
+  width: 26px;
+  height: 26px;
+  color: white;
+  fill: white;
+}
+
+.whoiscrm-auth-site-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+/* ─── Heading ───────────────────────────────────────────────────────────── */
+.whoiscrm-auth-heading {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.whoiscrm-auth-heading h1,
+.whoiscrm-auth-heading h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-2);
+  letter-spacing: -0.02em;
+}
+
+.whoiscrm-auth-heading p {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ─── Form Elements ─────────────────────────────────────────────────────── */
+.whoiscrm-auth-form .whoiscrm-form-group {
+  margin-bottom: var(--space-5);
+}
+
+.whoiscrm-auth-form label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+  letter-spacing: 0.01em;
+}
+
+.whoiscrm-auth-form label .required {
+  color: var(--color-danger);
+  margin-left: 2px;
+}
+
+.whoiscrm-auth-form input[type="email"],
+.whoiscrm-auth-form input[type="password"],
+.whoiscrm-auth-form input[type="text"] {
+  width: 100%;
+  height: 44px;
+  padding: 0 var(--space-4);
+  background: var(--color-white);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family);
+  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+  box-sizing: border-box;
+  transition: border-color var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+  outline: none;
+}
+
+.whoiscrm-auth-form input:focus {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.whoiscrm-auth-form input::placeholder {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.whoiscrm-auth-form input.is-error {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 3px rgba(229,53,53,.15);
+}
+
+/* Two-column row (first + last name) */
+.whoiscrm-auth-form .form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+/* Password wrapper with show/hide toggle */
+.whoiscrm-password-wrapper {
+  position: relative;
+}
+
+.whoiscrm-password-wrapper input {
+  padding-right: 44px;
+}
+
+.whoiscrm-password-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.whoiscrm-password-toggle:hover {
+  color: var(--color-text-secondary);
+}
+
+/* ─── Remember Me / Forgot Row ──────────────────────────────────────────── */
+.whoiscrm-form-row-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+}
+
+.whoiscrm-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.whoiscrm-checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.whoiscrm-auth-link {
+  font-size: 0.875rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.whoiscrm-auth-link:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+/* ─── Submit Button ─────────────────────────────────────────────────────── */
+.whoiscrm-btn-auth {
+  width: 100%;
+  height: 48px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-family);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  transition: background-color var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out),
+              transform 80ms var(--ease-out);
+  margin-top: var(--space-2);
+  letter-spacing: 0.01em;
+}
+
+.whoiscrm-btn-auth:hover {
+  background: var(--color-primary-dark);
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.whoiscrm-btn-auth:active {
+  transform: scale(0.98);
+}
+
+.whoiscrm-btn-auth:disabled,
+.whoiscrm-btn-auth.is-loading {
+  opacity: 0.70;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Spinner inside button */
+.whoiscrm-btn-auth .spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: none;
+}
+
+.whoiscrm-btn-auth.is-loading .spinner {
+  display: block;
+}
+
+.whoiscrm-btn-auth.is-loading .btn-text {
+  display: none;
+}
+
+/* ─── Alert / Message Box ───────────────────────────────────────────────── */
+.whoiscrm-auth-message {
+  display: none;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: var(--space-5);
+  animation: fadeIn var(--duration-fast) var(--ease-out);
+  border: 1px solid;
+}
+
+.whoiscrm-auth-message.is-error {
+  display: flex;
+  background: rgba(229,53,53,.08);
+  border-color: rgba(229,53,53,.30);
+  color: #C42B2B;
+}
+
+.whoiscrm-auth-message.is-success {
+  display: flex;
+  background: rgba(29,185,84,.08);
+  border-color: rgba(29,185,84,.30);
+  color: #14803C;
+}
+
+.whoiscrm-auth-message.is-info {
+  display: flex;
+  background: rgba(59,130,246,.08);
+  border-color: rgba(59,130,246,.30);
+  color: #1D4ED8;
+}
+
+/* ─── Auth Footer ───────────────────────────────────────────────────────── */
+.whoiscrm-auth-footer {
+  margin-top: var(--space-6);
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.whoiscrm-auth-footer a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.whoiscrm-auth-footer a:hover {
+  color: var(--color-primary-dark);
+}
+
+/* ─── Divider ───────────────────────────────────────────────────────────── */
+.whoiscrm-auth-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin: var(--space-6) 0;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+}
+
+.whoiscrm-auth-divider::before,
+.whoiscrm-auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* ─── Password Strength Bar ─────────────────────────────────────────────── */
+.whoiscrm-password-strength {
+  margin-top: var(--space-2);
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+  overflow: hidden;
+}
+
+.whoiscrm-password-strength__bar {
+  height: 100%;
+  border-radius: var(--radius-full);
+  width: 0%;
+  transition: width var(--duration-normal) var(--ease-out),
+              background-color var(--duration-fast) var(--ease-out);
+}
+
+.whoiscrm-password-strength__bar.strength-1 { width: 25%; background: var(--color-danger); }
+.whoiscrm-password-strength__bar.strength-2 { width: 50%; background: var(--color-warning); }
+.whoiscrm-password-strength__bar.strength-3 { width: 75%; background: var(--color-accent); }
+.whoiscrm-password-strength__bar.strength-4 { width: 100%; background: var(--color-success); }
+
+.whoiscrm-password-strength__label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+  font-weight: 500;
+}
+
+/* ─── Terms Checkbox ────────────────────────────────────────────────────── */
+.whoiscrm-terms-row {
+  margin-bottom: var(--space-5);
+}
+
+.whoiscrm-terms-label {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.whoiscrm-terms-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--color-primary);
+}
+
+/* ─── Responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .whoiscrm-auth-card {
+    padding: var(--space-8) var(--space-6);
+    border-radius: var(--radius-xl);
+  }
+
+  .whoiscrm-auth-form .form-row-2 {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}

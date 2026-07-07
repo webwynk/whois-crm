@@ -1,0 +1,410 @@
+/* ─── Customer Portal Styles ────────────────────────────────────────────── */
+
+.whoiscrm-portal {
+  font-family: var(--font-family);
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  min-height: 400px;
+  box-sizing: border-box;
+}
+
+.whoiscrm-portal * {
+  box-sizing: border-box;
+}
+
+/* ─── Portal Layout & Header ─────────────────────────────────────────────── */
+.whoiscrm-portal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-6);
+}
+
+.whoiscrm-portal-user-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.whoiscrm-portal-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-light);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.whoiscrm-portal-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.whoiscrm-portal-user-name {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.whoiscrm-portal-user-role {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* ─── Navigation Tabs ───────────────────────────────────────────────────── */
+.whoiscrm-portal-nav {
+  display: flex;
+  gap: var(--space-1);
+  overflow-x: auto;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-6);
+  padding-bottom: 2px;
+}
+
+.whoiscrm-portal-nav-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px var(--space-4);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color var(--duration-fast), border-color var(--duration-fast);
+  white-space: nowrap;
+}
+
+.whoiscrm-portal-nav-item:hover {
+  color: var(--color-text-primary);
+}
+
+.whoiscrm-portal-nav-item.is-active {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* ─── Auth/Access Denied notice ─────────────────────────────────────────── */
+.whoiscrm-portal-auth-notice {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  max-width: 480px;
+  margin: var(--space-10) auto;
+  animation: scaleIn var(--duration-normal) var(--ease-out);
+}
+
+.whoiscrm-portal-auth-notice h3 {
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--text-h2);
+}
+
+.whoiscrm-portal-auth-notice p {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-5);
+}
+
+/* Alerts */
+.whoiscrm-portal-alert {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-5);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.whoiscrm-portal-alert--danger {
+  background: rgba(225, 53, 53, 0.08);
+  color: var(--color-danger);
+  border: 1px solid rgba(225, 53, 53, 0.2);
+}
+
+/* ─── Dashboard Stats ───────────────────────────────────────────────────── */
+.whoiscrm-portal-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+  margin-bottom: var(--space-6);
+}
+
+.whoiscrm-portal-stat-card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.whoiscrm-portal-stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+}
+
+.whoiscrm-portal-stat-value {
+  font-size: var(--text-h1);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+/* ─── Subscriptions Tab ─────────────────────────────────────────────────── */
+.whoiscrm-portal-subs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-5);
+}
+
+.whoiscrm-portal-sub-card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: transform var(--duration-fast), box-shadow var(--duration-fast);
+}
+
+.whoiscrm-portal-sub-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.whoiscrm-portal-sub-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-4);
+}
+
+.whoiscrm-portal-sub-title {
+  font-size: var(--text-h3);
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.whoiscrm-portal-sub-meta {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+  line-height: 1.6;
+}
+
+/* ─── Public Pricing Layout ──────────────────────────────────────────────── */
+.whoiscrm-pricing-wrapper {
+  font-family: var(--font-family);
+  background: var(--color-surface);
+  padding: var(--space-10) 0;
+  box-sizing: border-box;
+}
+
+.whoiscrm-pricing-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto var(--space-8) auto;
+}
+
+.whoiscrm-pricing-title {
+  font-size: var(--text-display);
+  font-weight: 700;
+  color: var(--color-black);
+  margin-bottom: var(--space-3);
+  letter-spacing: -0.02em;
+}
+
+.whoiscrm-pricing-subtitle {
+  font-size: var(--text-body-lg);
+  color: var(--color-text-secondary);
+}
+
+/* Toggle Billing Cycle */
+.whoiscrm-pricing-toggle-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-10);
+}
+
+.whoiscrm-pricing-toggle-label {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.whoiscrm-pricing-toggle-label.is-active {
+  color: var(--color-primary);
+}
+
+/* Pricing Grid */
+.whoiscrm-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  align-items: stretch;
+  margin-bottom: var(--space-12);
+}
+
+.whoiscrm-pricing-card {
+  background: #fff;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out),
+              border-color var(--duration-normal) var(--ease-out);
+  animation: fadeInUp var(--duration-slow) var(--ease-out) both;
+}
+
+.whoiscrm-pricing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--color-primary);
+}
+
+.whoiscrm-pricing-card--featured {
+  border-color: var(--color-primary);
+  background: linear-gradient(180deg, #FFFDFB 0%, #FFFFFF 100%);
+  position: relative;
+}
+
+.whoiscrm-pricing-card--featured::before {
+  content: 'POPULAR';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+}
+
+.whoiscrm-pricing-card-header {
+  margin-bottom: var(--space-5);
+}
+
+.whoiscrm-pricing-card-name {
+  font-size: var(--text-h3);
+  font-weight: 700;
+  color: var(--color-black);
+  margin-bottom: var(--space-2);
+}
+
+.whoiscrm-pricing-card-desc {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  min-height: 42px;
+}
+
+.whoiscrm-pricing-card-price-wrap {
+  margin: var(--space-5) 0;
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.whoiscrm-pricing-card-price {
+  font-size: var(--text-display);
+  font-weight: 700;
+  color: var(--color-black);
+  letter-spacing: -0.03em;
+}
+
+.whoiscrm-pricing-card-cycle {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.whoiscrm-pricing-card-features {
+  margin: 0 0 var(--space-6) 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex-grow: 1;
+}
+
+.whoiscrm-pricing-card-features li {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.whoiscrm-pricing-card-features li::before {
+  content: '✓';
+  color: var(--color-success);
+  font-weight: 700;
+}
+
+/* Country Plans Grid */
+.whoiscrm-pricing-countries-title {
+  text-align: center;
+  font-size: var(--text-h2);
+  font-weight: 700;
+  margin-bottom: var(--space-6);
+}
+
+.whoiscrm-pricing-countries-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+
+.whoiscrm-pricing-country-card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: border-color var(--duration-fast);
+}
+
+.whoiscrm-pricing-country-card:hover {
+  border-color: var(--color-primary);
+}
+
+/* ─── Responsive Grid Styles ────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .whoiscrm-pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .whoiscrm-pricing-countries-grid { grid-template-columns: repeat(2, 1fr); }
+  .whoiscrm-portal-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .whoiscrm-pricing-grid { grid-template-columns: 1fr; }
+  .whoiscrm-pricing-countries-grid { grid-template-columns: 1fr; }
+  .whoiscrm-portal-stats { grid-template-columns: 1fr; }
+  .whoiscrm-portal-subs-grid { grid-template-columns: 1fr; }
+  .whoiscrm-portal-header { flex-direction: column; align-items: flex-start; gap: var(--space-3); }
+}
