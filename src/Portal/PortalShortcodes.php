@@ -45,10 +45,18 @@ class PortalShortcodes
                 'user_id'   => $user_id,
                 'is_active' => 1,
             ]);
-            $customer = (new Customer())->find($customer_id);
+            if ($customer_id !== false) {
+                $customer = (new Customer())->find((int) $customer_id);
+            }
         }
 
-        if (!$customer->is_active) {
+        if (!$customer) {
+            return '<div class="whoiscrm-portal-alert whoiscrm-portal-alert--danger">' .
+                esc_html__('Failed to load customer profile. Please contact support.', 'whois-crm') .
+                '</div>';
+        }
+
+        if (empty($customer->is_active)) {
             return '<div class="whoiscrm-portal-alert whoiscrm-portal-alert--danger">' .
                 esc_html__('Your account has been suspended. Please contact support.', 'whois-crm') .
                 '</div>';
