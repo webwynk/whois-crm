@@ -47,6 +47,14 @@ class Formatter
     }
 
     /**
+     * Format file size in human-readable units (alias for file_size).
+     */
+    public static function bytes(int $bytes): string
+    {
+        return self::file_size($bytes);
+    }
+
+    /**
      * Format a date for display.
      */
     public static function date(string $datetime, string $format = ''): string
