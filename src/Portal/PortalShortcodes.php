@@ -86,7 +86,7 @@ class PortalShortcodes
         ];
 
         // Only show API Keys tab to Enterprise subscribers
-        $has_enterprise = $this->has_active_enterprise($customer->id);
+        $has_enterprise = $this->has_active_enterprise((int) $customer->id);
         if ($has_enterprise) {
             $tabs['api-keys'] = __('API Access', 'whois-crm');
         }

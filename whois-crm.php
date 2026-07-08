@@ -3,7 +3,7 @@
  * Plugin Name:       WHOIS CRM
  * Plugin URI:        https://yoursite.com/whois-crm
  * Description:       Subscription-based WHOIS data distribution platform with admin dashboard, customer portal, and Stripe payments.
- * Version:           1.0.8
+ * Version:           1.0.9
  * Requires at least: 6.4
  * Requires PHP:      8.1
  * Author:            WHOIS CRM
@@ -20,21 +20,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Diagnostics: Shutdown handler to capture and print fatal errors
-register_shutdown_function(static function (): void {
-    $error = error_get_last();
-    if ($error !== null && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR], true)) {
-        echo '<div style="background:#ffebee;color:#c62828;padding:20px;border:1px solid #ef9a9a;margin:20px;font-family:monospace;z-index:999999;position:relative;display:block;">';
-        echo '<h3>PHP Fatal Error caught by Whois CRM Debugger</h3>';
-        echo '<strong>Message:</strong> ' . esc_html($error['message']) . '<br>';
-        echo '<strong>File:</strong> ' . esc_html($error['file']) . '<br>';
-        echo '<strong>Line:</strong> ' . esc_html($error['line']) . '<br>';
-        echo '</div>';
-    }
-});
-
 // ─── Plugin Constants ─────────────────────────────────────────────────────────
-define('WHOISCRM_VERSION', '1.0.8');
+define('WHOISCRM_VERSION', '1.0.9');
 define('WHOISCRM_DB_VERSION', '1.0.3');
 define('WHOISCRM_PLUGIN_FILE', __FILE__);
 define('WHOISCRM_PLUGIN_DIR', plugin_dir_path(__FILE__));
