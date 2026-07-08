@@ -59,6 +59,23 @@ class PortalAssets
             WHOISCRM_VERSION
         );
 
+        // Auth forms styling
+        global $post;
+        if ($post && !empty($post->post_content)) {
+            if (has_shortcode($post->post_content, 'whoiscrm_login') ||
+                has_shortcode($post->post_content, 'whoiscrm_register') ||
+                has_shortcode($post->post_content, 'whoiscrm_forgot_password') ||
+                has_shortcode($post->post_content, 'whoiscrm_reset_password')) {
+
+                wp_enqueue_style(
+                    'whoiscrm-auth',
+                    WHOISCRM_PLUGIN_URL . 'assets/css/auth.css',
+                    ['whoiscrm-components'],
+                    WHOISCRM_VERSION
+                );
+            }
+        }
+
         // Portal client-side script
         wp_enqueue_script(
             'whoiscrm-portal-js',

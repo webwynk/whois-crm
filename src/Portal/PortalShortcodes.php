@@ -107,7 +107,7 @@ class PortalShortcodes
         switch ($tab) {
             case 'dashboard':
                 $subscriptions = (new Subscription())->get_active_for_customer($customer_id);
-                $downloads = (new Download())->get_recent_for_customer($customer_id, 10);
+                $downloads = (new Download())->get_for_customer($customer_id, 10);
                 
                 $total_downloads = 0;
                 foreach ($downloads as $d) {
