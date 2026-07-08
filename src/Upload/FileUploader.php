@@ -27,11 +27,24 @@ class FileUploader
     private const ALLOWED_MIMES = [
         'text/csv'                                                          => 'csv',
         'text/plain'                                                        => 'csv',
+        'text/x-csv'                                                        => 'csv',
+        'application/csv'                                                   => 'csv',
+        'application/x-csv'                                                 => 'csv',
+        'text/comma-separated-values'                                       => 'csv',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
         'application/vnd.ms-excel'                                          => 'xlsx',
+        'application/vnd.ms-office'                                         => 'xlsx',
+        'application/xls'                                                   => 'xlsx',
+        'application/x-xls'                                                 => 'xlsx',
         'application/zip'                                                   => 'zip',
         'application/x-zip-compressed'                                      => 'zip',
         'application/octet-stream'                                          => 'zip',
+        'application/x-zip'                                                 => 'zip',
+        'application/x-compress'                                            => 'zip',
+        'application/x-compressed'                                          => 'zip',
+        'application/zip-compressed'                                        => 'zip',
+        'application/x-zip-archive'                                         => 'zip',
+        'multipart/x-zip'                                                   => 'zip',
         'application/json'                                                  => 'json',
         'text/json'                                                         => 'json',
     ];
@@ -198,6 +211,7 @@ class FileUploader
 
         if (!empty($skipped)) {
             $query['skipped'] = count($skipped);
+            set_transient('whoiscrm_upload_skipped_' . get_current_user_id(), $skipped, 60);
         }
 
         wp_safe_redirect(add_query_arg($query, admin_url('admin.php')));

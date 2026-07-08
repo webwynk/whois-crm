@@ -36,8 +36,21 @@ $active_to      = $filters['date_to'] ?? '';
   <div class="whoiscrm-alert whoiscrm-alert--success">
     <?php printf(esc_html__('Successfully uploaded %d file(s).', 'whois-crm'), (int) $_GET['uploaded']); ?>
     <?php if (isset($_GET['skipped'])) : ?>
+      <?php
+      $skipped_files = get_transient('whoiscrm_upload_skipped_' . get_current_user_id());
+      if ($skipped_files) {
+          delete_transient('whoiscrm_upload_skipped_' . get_current_user_id());
+      }
+      ?>
       <span style="display:block; margin-top:4px; font-size:0.8125rem;">
         ⚠️ <?php printf(esc_html__('%d file(s) were skipped due to size or validation failures.', 'whois-crm'), (int) $_GET['skipped']); ?>
+        <?php if (!empty($skipped_files) && is_array($skipped_files)) : ?>
+          <ul style="margin: 4px 0 0 16px; padding: 0; list-style: disc; text-align: left;">
+            <?php foreach ($skipped_files as $skip_reason) : ?>
+              <li><?php echo esc_html($skip_reason); ?></li>
+            <?php endforeach; ?>
+          </ul>
+        <?php endif; ?>
       </span>
     <?php endif; ?>
   </div>
