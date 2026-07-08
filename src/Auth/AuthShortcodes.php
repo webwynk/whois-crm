@@ -32,9 +32,8 @@ class AuthShortcodes
      */
     public function render_login(array $atts = []): string
     {
-        // If already logged in, redirect silently (template_redirect handles it).
-        if (is_user_logged_in() && !current_user_can('manage_options')) {
-            return '';
+        if (is_user_logged_in()) {
+            return $this->get_already_logged_in_notice();
         }
 
         $redirect_to = esc_url(sanitize_text_field(wp_unslash($_GET['redirect_to'] ?? '')));
@@ -55,8 +54,8 @@ class AuthShortcodes
      */
     public function render_register(array $atts = []): string
     {
-        if (is_user_logged_in() && !current_user_can('manage_options')) {
-            return '';
+        if (is_user_logged_in()) {
+            return $this->get_already_logged_in_notice();
         }
 
         ob_start();
@@ -73,8 +72,8 @@ class AuthShortcodes
      */
     public function render_forgot_password(array $atts = []): string
     {
-        if (is_user_logged_in() && !current_user_can('manage_options')) {
-            return '';
+        if (is_user_logged_in()) {
+            return $this->get_already_logged_in_notice();
         }
 
         ob_start();
@@ -139,5 +138,26 @@ class AuthShortcodes
         extract($vars, EXTR_SKIP); // phpcs:ignore WordPress.PHP.DontExtract.extract_extract
 
         require $path;
+    }
+
+    /**
+     * Get already signed-in fallback notice HTML.
+     */
+    private function get_already_logged_in_notice(): string
+    {
+        $portal_page = get_option('whoiscrm_portal_page_id');
+        $portal_url  = $portal_page ? get_permalink($portal_page) : home_url('/');
+
+        return sprintf(
+            '<div class="whoiscrm-portal-auth-notice" style="text-align: center; max-width: 480px; margin: 40px auto; padding: 30px; border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); box-shadow: var(--shadow-sm);">
+                <h3 style="margin-top: 0; color: var(--color-text-primary); font-weight: 600;">%1$s</h3>
+                <p style="color: var(--color-text-secondary); margin-bottom: 20px;">%2$s</p>
+                <a href="%3$s" class="whoiscrm-btn whoiscrm-btn--primary" style="text-decoration: none;">%4$s</a>
+            </div>',
+            esc_html__('Already Signed In', 'whois-crm'),
+            esc_html__('You are already signed in to your account.', 'whois-crm'),
+            esc_url($portal_url),
+            esc_html__('Go to Customer Portal', 'whois-crm')
+        );
     }
 }

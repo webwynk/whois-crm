@@ -167,7 +167,7 @@ class AuthRedirects
     }
 
     /**
-     * Redirect logged-in customers away from login/register pages.
+     * Redirect logged-in users away from login/register pages.
      */
     public function redirect_logged_in_from_auth_pages(): void
     {
@@ -175,14 +175,11 @@ class AuthRedirects
             return;
         }
 
-        // Only redirect customers, not admins.
-        if (current_user_can('manage_options')) {
-            return;
-        }
-
         $auth_pages = [
             (int) get_option('whoiscrm_login_page_id'),
             (int) get_option('whoiscrm_register_page_id'),
+            (int) get_option('whoiscrm_forgot_password_page_id'),
+            (int) get_option('whoiscrm_reset_password_page_id'),
         ];
 
         if (is_page($auth_pages)) {
