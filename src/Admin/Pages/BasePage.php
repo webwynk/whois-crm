@@ -121,7 +121,7 @@ abstract class BasePage
     /**
      * Store an admin notice to display after a redirect.
      */
-    protected static function set_notice(string $transient_key, string $message, string $type = 'success'): void
+    public static function set_notice(string $transient_key, string $message, string $type = 'success'): void
     {
         set_transient(
             $transient_key . '_' . get_current_user_id(),

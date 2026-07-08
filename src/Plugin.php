@@ -111,6 +111,9 @@ class Plugin
         // Phase 5+: Package Manager CRUD
         new Admin\PackageManager();
 
+        // Phase 12+: Coupon Manager CRUD (admin-post.php handler)
+        new Admin\CouponManager();
+
         // Phase 6+: File Upload & Management
         new Upload\FileUploader();
         new Upload\FileManager();

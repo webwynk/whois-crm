@@ -229,6 +229,14 @@ abstract class BaseModel
     }
 
     /**
+     * Alias for delete() — provided for compatibility with callers using delete_by_id().
+     */
+    public function delete_by_id(int $id): bool
+    {
+        return $this->delete($id);
+    }
+
+    /**
      * Delete records matching conditions.
      *
      * @param array $where Column => value conditions.
