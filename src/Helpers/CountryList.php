@@ -33,6 +33,16 @@ class CountryList
     }
 
     /**
+     * Alias for get_all_countries.
+     *
+     * @return array<string, string> Country code => Country name
+     */
+    public static function all(): array
+    {
+        return self::get_all_countries();
+    }
+
+    /**
      * Full list of countries for customer profile addresses.
      *
      * @return array<string, string> Country code => Country name
