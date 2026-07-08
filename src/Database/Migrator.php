@@ -39,6 +39,7 @@ class Migrator
         // Add new migrations here as the plugin evolves.
         $migrations = [
             '1.0.0' => [self::class, 'migrate_to_1_0_0'],
+            '1.0.3' => [self::class, 'migrate_to_1_0_3'],
         ];
 
         foreach ($migrations as $version => $callback) {
@@ -54,6 +55,14 @@ class Migrator
      * Initial schema creation (1.0.0).
      */
     private static function migrate_to_1_0_0(): void
+    {
+        Schema::create_tables();
+    }
+
+    /**
+     * Re-run schema creation to ensure all tables exist (1.0.3).
+     */
+    private static function migrate_to_1_0_3(): void
     {
         Schema::create_tables();
     }

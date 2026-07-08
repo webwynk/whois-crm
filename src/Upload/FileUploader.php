@@ -148,7 +148,7 @@ class FileUploader
             }
 
             // ── Record in database ────────────────────────────────────
-            $model->insert([
+            $inserted_id = $model->insert([
                 'filename'          => $safe_name,
                 'original_filename' => $original_name,
                 'file_path'         => $rel_dir . '/' . $safe_name,
@@ -161,10 +161,18 @@ class FileUploader
                 'data_date'         => $data_date,
                 'service_type'      => $service_type,
                 'notes'             => $notes,
-                'checksum'          => hash_file('sha256', $dest),
+                'checksum'          => hash_file('sha256', $dest) ?: null,
                 'uploaded_by'       => get_current_user_id(),
                 'is_active'         => 1,
             ]);
+
+            if ($inserted_id === false) {
+                @unlink($dest);
+                $db_error = $model->last_error();
+                $skipped[] = $original_name . ' (database error: ' . ($db_error ?: 'unknown database error') . ')';
+                error_log("WHOIS CRM Upload DB Error: " . $db_error);
+                continue;
+            }
 
             $uploaded++;
         }
