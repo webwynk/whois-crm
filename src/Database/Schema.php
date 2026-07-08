@@ -206,6 +206,7 @@ class Schema
             tld varchar(20) NULL,
             data_date date NOT NULL,
             service_type varchar(30) NOT NULL,
+            notes text NULL,
             record_count int unsigned NULL,
             checksum varchar(64) NULL,
             uploaded_by bigint(20) unsigned NOT NULL,

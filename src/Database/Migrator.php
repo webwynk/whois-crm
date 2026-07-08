@@ -40,6 +40,7 @@ class Migrator
         $migrations = [
             '1.0.0' => [self::class, 'migrate_to_1_0_0'],
             '1.0.3' => [self::class, 'migrate_to_1_0_3'],
+            '1.1.0' => [self::class, 'migrate_to_1_1_0'],
         ];
 
         foreach ($migrations as $version => $callback) {
@@ -64,6 +65,25 @@ class Migrator
      */
     private static function migrate_to_1_0_3(): void
     {
+        Schema::create_tables();
+    }
+
+    /**
+     * Add notes column to data_files table and synchronize schema (1.1.0).
+     */
+    private static function migrate_to_1_1_0(): void
+    {
+        global $wpdb;
+        $table = $wpdb->prefix . 'whoiscrm_data_files';
+
+        // Check if notes column exists. If not, add it.
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- DESCRIBE statement is static.
+        $columns = $wpdb->get_col("DESCRIBE {$table}", 0);
+        if ($columns && !in_array('notes', $columns, true)) {
+            // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table name is built from $wpdb->prefix, ALTER TABLE is static.
+            $wpdb->query("ALTER TABLE {$table} ADD COLUMN notes text NULL AFTER service_type");
+        }
+
         Schema::create_tables();
     }
 
