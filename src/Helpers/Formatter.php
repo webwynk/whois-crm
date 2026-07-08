@@ -12,8 +12,9 @@ class Formatter
     /**
      * Format a monetary amount with currency symbol.
      */
-    public static function currency(float $amount, string $currency = 'USD'): string
+    public static function currency(float|string|int $amount, string $currency = 'USD'): string
     {
+        $amount = (float) $amount;
         $symbols = [
             'USD' => '$',
             'EUR' => '€',
@@ -33,8 +34,9 @@ class Formatter
     /**
      * Format file size in human-readable units.
      */
-    public static function file_size(int $bytes): string
+    public static function file_size(int|string $bytes): string
     {
+        $bytes = (int) $bytes;
         if ($bytes <= 0) {
             return '0 B';
         }
@@ -49,7 +51,7 @@ class Formatter
     /**
      * Format file size in human-readable units (alias for file_size).
      */
-    public static function bytes(int $bytes): string
+    public static function bytes(int|string $bytes): string
     {
         return self::file_size($bytes);
     }
@@ -157,13 +159,9 @@ class Formatter
         );
     }
 
-    /**
-     * Generate an invoice number.
-     *
-     * Format: WHOIS-{YEAR}-{PADDED_NUMBER}
-     */
-    public static function invoice_number(int $sequence): string
+    public static function invoice_number(int|string $sequence): string
     {
+        $sequence = (int) $sequence;
         $year = gmdate('Y');
         return sprintf('WHOIS-%s-%05d', $year, $sequence);
     }
