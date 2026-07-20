@@ -199,6 +199,23 @@ class PortalShortcodes
     public function render_pricing(array $atts = []): string
     {
         $packages = (new Package())->get_active();
+
+        // Auto-seed if database packages table is empty
+        if (empty($packages)) {
+            \WhoisCRM\Activator::seed_default_packages();
+            $packages = (new Package())->get_active();
+        }
+
+        // Fallback: if database table is not seeded yet, parse default-packages.json directly
+        if (empty($packages)) {
+            $json_file = WHOISCRM_PLUGIN_DIR . 'data/default-packages.json';
+            if (file_exists($json_file)) {
+                $raw = json_decode((string) file_get_contents($json_file), false);
+                if ($raw && !empty($raw->packages)) {
+                    $packages = $raw->packages;
+                }
+            }
+        }
         
         ob_start();
         $this->render_template('pricing-table', [

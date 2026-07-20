@@ -16,20 +16,36 @@ $global_plans = [];
 $country_plans = [];
 
 foreach ($packages as $pkg) {
-    // Fetch pricing variants
-    $pricings = $pricing_model->get_for_package((int) $pkg->id);
+    // If $pkg is an object, normalize
+    $pkg_id = isset($pkg->id) ? (int) $pkg->id : 0;
+    $pkg_type = $pkg->type ?? 'global_service';
+
     $pkg->monthly_price = null;
     $pkg->annual_price = null;
-    
-    foreach ($pricings as $p) {
-        if ($p->billing_cycle === 'monthly') {
-            $pkg->monthly_price = $p;
-        } elseif ($p->billing_cycle === 'annually') {
-            $pkg->annual_price = $p;
+
+    if ($pkg_id > 0) {
+        $pricings = $pricing_model->get_for_package($pkg_id);
+        foreach ($pricings as $p) {
+            if ($p->billing_cycle === 'monthly') {
+                $pkg->monthly_price = $p;
+            } elseif ($p->billing_cycle === 'annually') {
+                $pkg->annual_price = $p;
+            }
+        }
+    } elseif (isset($pkg->pricing)) {
+        // Raw JSON fallback format
+        foreach ($pkg->pricing as $p) {
+            if (is_object($p)) {
+                if (($p->billing_cycle ?? '') === 'monthly') $pkg->monthly_price = $p;
+                if (($p->billing_cycle ?? '') === 'annually') $pkg->annual_price = $p;
+            } elseif (is_array($p)) {
+                if (($p['billing_cycle'] ?? '') === 'monthly') $pkg->monthly_price = (object)$p;
+                if (($p['billing_cycle'] ?? '') === 'annually') $pkg->annual_price = (object)$p;
+            }
         }
     }
 
-    if ($pkg->type === 'global_service') {
+    if ($pkg_type === 'global_service') {
         $global_plans[] = $pkg;
     } else {
         $country_plans[] = $pkg;
@@ -65,28 +81,36 @@ foreach ($packages as $pkg) {
     <!-- Global Service Plans Grid -->
     <div class="whoiscrm-pricing-grid">
       <?php foreach ($global_plans as $index => $pkg) :
-        $is_featured = ($pkg->slug === 'lead-generation'); // Feature lead gen by default
-        $features = $pkg->features ? json_decode($pkg->features, true) : [];
+        $slug = $pkg->slug ?? '';
+        $is_featured = ($slug === 'lead-generation');
+        $features = [];
+        if (!empty($pkg->features)) {
+            $features = is_array($pkg->features) ? $pkg->features : json_decode((string)$pkg->features, true);
+        }
+        $m_price = isset($pkg->monthly_price->price) ? number_format((float)$pkg->monthly_price->price, 0) : '0';
+        $a_price = isset($pkg->annual_price->price) ? number_format((float)$pkg->annual_price->price, 0) : '0';
+        $pricing_id_m = isset($pkg->monthly_price->id) ? (int)$pkg->monthly_price->id : 0;
+        $pricing_id_a = isset($pkg->annual_price->id) ? (int)$pkg->annual_price->id : 0;
         ?>
         <div class="whoiscrm-pricing-card <?php echo $is_featured ? 'whoiscrm-pricing-card--featured' : ''; ?>">
           <div>
             <div class="whoiscrm-pricing-card-header">
-              <h3 class="whoiscrm-pricing-card-name"><?php echo esc_html($pkg->name); ?></h3>
-              <p class="whoiscrm-pricing-card-desc"><?php echo esc_html($pkg->description); ?></p>
+              <h3 class="whoiscrm-pricing-card-name"><?php echo esc_html($pkg->name ?? ''); ?></h3>
+              <p class="whoiscrm-pricing-card-desc"><?php echo esc_html($pkg->description ?? ''); ?></p>
             </div>
 
             <!-- Price Display -->
             <div class="whoiscrm-pricing-card-price-wrap">
               <span class="whoiscrm-pricing-card-price js-price-amount" 
-                    data-monthly="<?php echo isset($pkg->monthly_price) ? esc_attr(number_format((float)$pkg->monthly_price->price, 0)) : '0'; ?>"
-                    data-annual="<?php echo isset($pkg->annual_price) ? esc_attr(number_format((float)$pkg->annual_price->price, 0)) : '0'; ?>">
-                $<?php echo isset($pkg->monthly_price) ? esc_html(number_format((float)$pkg->monthly_price->price, 0)) : '0'; ?>
+                    data-monthly="<?php echo esc_attr($m_price); ?>"
+                    data-annual="<?php echo esc_attr($a_price); ?>">
+                $<?php echo esc_html($m_price); ?>
               </span>
               <span class="whoiscrm-pricing-card-cycle js-price-cycle">/month</span>
             </div>
 
             <!-- Feature Checklist -->
-            <?php if (!empty($features)) : ?>
+            <?php if (!empty($features) && is_array($features)) : ?>
               <ul class="whoiscrm-pricing-card-features">
                 <?php foreach ($features as $f) : ?>
                   <li><?php echo esc_html($f); ?></li>
@@ -98,22 +122,18 @@ foreach ($packages as $pkg) {
           <!-- Checkout Buttons -->
           <div style="margin-top: 24px;">
             <!-- Monthly Subscribe Button -->
-            <?php if (isset($pkg->monthly_price)) : ?>
-              <button type="button" class="whoiscrm-btn whoiscrm-btn--primary whoiscrm-btn--lg js-subscribe-btn js-btn-monthly" 
-                      data-pricing-id="<?php echo (int) $pkg->monthly_price->id; ?>" 
-                      data-nonce="<?php echo esc_attr($nonce); ?>" style="width: 100%;">
-                <?php esc_html_e('Subscribe Now', 'whois-crm'); ?>
-              </button>
-            <?php endif; ?>
+            <button type="button" class="whoiscrm-btn whoiscrm-btn--primary whoiscrm-btn--lg js-subscribe-btn js-btn-monthly" 
+                    data-pricing-id="<?php echo $pricing_id_m; ?>" 
+                    data-nonce="<?php echo esc_attr($nonce); ?>" style="width: 100%;">
+              <?php esc_html_e('Subscribe Now', 'whois-crm'); ?>
+            </button>
 
             <!-- Annual Subscribe Button (Initially hidden) -->
-            <?php if (isset($pkg->annual_price)) : ?>
-              <button type="button" class="whoiscrm-btn whoiscrm-btn--primary whoiscrm-btn--lg js-subscribe-btn js-btn-annual" 
-                      data-pricing-id="<?php echo (int) $pkg->annual_price->id; ?>" 
-                      data-nonce="<?php echo esc_attr($nonce); ?>" style="width: 100%; display: none;">
-                <?php esc_html_e('Subscribe Annually', 'whois-crm'); ?>
-              </button>
-            <?php endif; ?>
+            <button type="button" class="whoiscrm-btn whoiscrm-btn--primary whoiscrm-btn--lg js-subscribe-btn js-btn-annual" 
+                    data-pricing-id="<?php echo $pricing_id_a; ?>" 
+                    data-nonce="<?php echo esc_attr($nonce); ?>" style="width: 100%; display: none;">
+              <?php esc_html_e('Subscribe Annually', 'whois-crm'); ?>
+            </button>
           </div>
         </div>
       <?php endforeach; ?>
@@ -128,29 +148,33 @@ foreach ($packages as $pkg) {
 
       <div class="whoiscrm-pricing-countries-grid">
         <?php foreach ($country_plans as $pkg) :
-          $price_label = isset($pkg->monthly_price) ? '$' . number_format((float)$pkg->monthly_price->price, 0) . '/mo' : '—';
-          $tlds_arr = $pkg->tlds ? json_decode($pkg->tlds, true) : [];
+          $price_label = isset($pkg->monthly_price->price) ? '$' . number_format((float)$pkg->monthly_price->price, 0) . '/mo' : '—';
+          $tlds_arr = [];
+          if (!empty($pkg->tlds)) {
+              $tlds_arr = is_array($pkg->tlds) ? $pkg->tlds : json_decode((string)$pkg->tlds, true);
+          }
+          $pricing_id_country = isset($pkg->monthly_price->id) ? (int)$pkg->monthly_price->id : 0;
           ?>
           <div class="whoiscrm-pricing-country-card">
             <div>
               <h4 style="margin: 0 0 4px 0; font-size: 1.125rem; font-weight: 700; color: #0A0A0B;">
-                <?php echo esc_html($pkg->name); ?>
+                <?php echo esc_html($pkg->name ?? ''); ?>
               </h4>
-              <span style="font-size: 0.75rem; color: #9898A8;">
-                <?php echo esc_html(implode(', ', $tlds_arr)); ?>
-              </span>
+              <?php if (!empty($tlds_arr) && is_array($tlds_arr)) : ?>
+                <span style="font-size: 0.75rem; color: #9898A8;">
+                  <?php echo esc_html(implode(', ', $tlds_arr)); ?>
+                </span>
+              <?php endif; ?>
             </div>
             <div style="text-align: right;">
               <div style="font-weight: 700; color: #FF6621; font-size: 1.125rem; margin-bottom: 6px;">
                 <?php echo esc_html($price_label); ?>
               </div>
-              <?php if (isset($pkg->monthly_price)) : ?>
-                <button type="button" class="whoiscrm-btn whoiscrm-btn--secondary whoiscrm-btn--sm js-subscribe-btn" 
-                        data-pricing-id="<?php echo (int) $pkg->monthly_price->id; ?>" 
-                        data-nonce="<?php echo esc_attr($nonce); ?>">
-                  <?php esc_html_e('Subscribe', 'whois-crm'); ?>
-                </button>
-              <?php endif; ?>
+              <button type="button" class="whoiscrm-btn whoiscrm-btn--secondary whoiscrm-btn--sm js-subscribe-btn" 
+                      data-pricing-id="<?php echo $pricing_id_country; ?>" 
+                      data-nonce="<?php echo esc_attr($nonce); ?>">
+                <?php esc_html_e('Subscribe', 'whois-crm'); ?>
+              </button>
             </div>
           </div>
         <?php endforeach; ?>

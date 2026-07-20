@@ -65,7 +65,7 @@ class Activator
     /**
      * Seed default packages from the JSON file.
      */
-    private static function seed_default_packages(): void
+    public static function seed_default_packages(): void
     {
         global $wpdb;
 
