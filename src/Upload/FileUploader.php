@@ -21,32 +21,43 @@ use WhoisCRM\Database\Models\ActivityLog;
 class FileUploader
 {
     /** Allowed file extensions. */
-    private const ALLOWED_EXTENSIONS = ['csv', 'xlsx', 'zip', 'json'];
+    private const ALLOWED_EXTENSIONS = ['csv', 'xlsx', 'xls', 'zip', 'json', 'txt', 'pdf', 'ods'];
 
     /** Allowed MIME types mapped to extensions. */
     private const ALLOWED_MIMES = [
+        // CSV
         'text/csv'                                                          => 'csv',
-        'text/plain'                                                        => 'csv',
         'text/x-csv'                                                        => 'csv',
         'application/csv'                                                   => 'csv',
         'application/x-csv'                                                 => 'csv',
         'text/comma-separated-values'                                       => 'csv',
+        // Excel (XLSX)
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
-        'application/vnd.ms-excel'                                          => 'xlsx',
-        'application/vnd.ms-office'                                         => 'xlsx',
-        'application/xls'                                                   => 'xlsx',
-        'application/x-xls'                                                 => 'xlsx',
+        // Excel (XLS) / generic MS Office
+        'application/vnd.ms-excel'                                          => 'xls',
+        'application/vnd.ms-office'                                         => 'xls',
+        'application/xls'                                                   => 'xls',
+        'application/x-xls'                                                 => 'xls',
+        // ZIP
         'application/zip'                                                   => 'zip',
         'application/x-zip-compressed'                                      => 'zip',
-        'application/octet-stream'                                          => 'zip',
         'application/x-zip'                                                 => 'zip',
         'application/x-compress'                                            => 'zip',
         'application/x-compressed'                                          => 'zip',
         'application/zip-compressed'                                        => 'zip',
         'application/x-zip-archive'                                         => 'zip',
         'multipart/x-zip'                                                   => 'zip',
+        // JSON
         'application/json'                                                  => 'json',
         'text/json'                                                         => 'json',
+        // Plain text (TXT and CSV both report text/plain)
+        'text/plain'                                                        => 'txt',
+        // PDF
+        'application/pdf'                                                   => 'pdf',
+        // OpenDocument Spreadsheet (ODS — Google Sheets export)
+        'application/vnd.oasis.opendocument.spreadsheet'                    => 'ods',
+        // Generic binary (ZIP, XLS, ODS may report this)
+        'application/octet-stream'                                          => 'zip',
     ];
 
     public function __construct()
@@ -214,7 +225,19 @@ class FileUploader
             set_transient('whoiscrm_upload_skipped_' . get_current_user_id(), $skipped, 60);
         }
 
-        wp_safe_redirect(add_query_arg($query, admin_url('admin.php')));
+        $redirect_url = add_query_arg($query, admin_url('admin.php'));
+
+        // ── AJAX: return JSON instead of redirecting ─────────────────
+        if ($this->is_ajax_request()) {
+            wp_send_json_success([
+                'uploaded'        => $uploaded,
+                'skipped'         => count($skipped),
+                'skipped_details' => $skipped,
+                'redirect'        => $redirect_url,
+            ]);
+        }
+
+        wp_safe_redirect($redirect_url);
         exit;
     }
 
@@ -296,13 +319,27 @@ class FileUploader
 
     /**
      * Redirect back to the upload page with an error message.
+     * Returns JSON for AJAX requests instead of redirecting.
      */
     private function redirect_error(string $message): void
     {
+        if ($this->is_ajax_request()) {
+            wp_send_json_error(['message' => $message]);
+        }
+
         wp_safe_redirect(add_query_arg(
             ['page' => 'whoiscrm-upload', 'upload_error' => urlencode($message)],
             admin_url('admin.php')
         ));
         exit;
+    }
+
+    /**
+     * Check if the current request is an XMLHttpRequest (AJAX).
+     */
+    private function is_ajax_request(): bool
+    {
+        return !empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
     }
 }

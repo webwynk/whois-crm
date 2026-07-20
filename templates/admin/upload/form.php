@@ -50,9 +50,9 @@ $service_types = [
             <div style="font-size: 2.5rem; margin-bottom: var(--space-3);">📤</div>
             <h4 style="margin: 0 0 var(--space-2) 0; font-size: 1.1rem; color: var(--color-text-primary);"><?php esc_html_e('Drag and drop your data files here', 'whois-crm'); ?></h4>
             <p style="margin: 0; font-size: 0.875rem; color: var(--color-text-muted);">
-              <?php printf(esc_html__('Supports .zip, .csv, .xlsx, .json up to %d MB', 'whois-crm'), $max_size_mb); ?>
+              <?php printf(esc_html__('Supports .zip, .csv, .xlsx, .xls, .ods, .txt, .pdf, .json up to %d MB', 'whois-crm'), $max_size_mb); ?>
             </p>
-            <input type="file" name="whoiscrm_files[]" id="whoiscrm-file-input" multiple accept=".zip,.csv,.xlsx,.json" style="position: absolute; inset: 0; opacity: 0; cursor: pointer;">
+            <input type="file" name="whoiscrm_files[]" id="whoiscrm-file-input" multiple accept=".zip,.csv,.xlsx,.xls,.ods,.txt,.pdf,.json" style="position: absolute; inset: 0; opacity: 0; cursor: pointer;">
           </div>
 
           <!-- Selected Files List -->
@@ -128,8 +128,182 @@ $service_types = [
   </div>
 </form>
 
+<!-- ═══════ Upload Progress Overlay (hidden until submit) ═══════ -->
+<div id="whoiscrm-upload-overlay" style="display: none;">
+  <div class="whoiscrm-upload-progress-card" id="whoiscrm-progress-card">
+    <div class="whoiscrm-upload-progress-card__inner">
+
+      <!-- Progress State -->
+      <div id="whoiscrm-progress-state">
+        <div id="whoiscrm-progress-pct" class="whoiscrm-progress-pct">0%</div>
+
+        <div class="whoiscrm-progress-bar-track">
+          <div class="whoiscrm-progress-bar-fill" id="whoiscrm-progress-bar-fill"></div>
+        </div>
+
+        <p id="whoiscrm-progress-label" class="whoiscrm-progress-label">
+          <?php esc_html_e('Uploading your files…', 'whois-crm'); ?>
+        </p>
+      </div>
+
+      <!-- Success State (hidden initially) -->
+      <div id="whoiscrm-success-state" style="display: none;">
+        <div class="whoiscrm-success-icon">✓</div>
+        <h3 class="whoiscrm-success-title"><?php esc_html_e('Upload Successful!', 'whois-crm'); ?></h3>
+        <p class="whoiscrm-success-subtitle" id="whoiscrm-success-detail"></p>
+        <p class="whoiscrm-success-redirect"><?php esc_html_e('Redirecting…', 'whois-crm'); ?></p>
+      </div>
+
+      <!-- Error State (hidden initially) -->
+      <div id="whoiscrm-error-state" style="display: none;">
+        <div class="whoiscrm-error-icon">✕</div>
+        <h3 class="whoiscrm-success-title" style="color: var(--color-danger, #dc3545);"><?php esc_html_e('Upload Failed', 'whois-crm'); ?></h3>
+        <p id="whoiscrm-error-message" class="whoiscrm-success-subtitle"></p>
+        <button type="button" id="whoiscrm-retry-btn" class="whoiscrm-btn whoiscrm-btn--primary whoiscrm-btn--sm" style="margin-top: var(--space-4, 16px);">
+          <?php esc_html_e('← Try Again', 'whois-crm'); ?>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ Progress Styles ═══════ -->
+<style>
+/* ── Animated border card ────────────────────────────────────── */
+.whoiscrm-upload-progress-card {
+  --progress-deg: 0deg;
+  position: relative;
+  padding: 3px;
+  border-radius: var(--radius-lg, 12px);
+  background: conic-gradient(
+    var(--color-primary, #ff6621) var(--progress-deg),
+    rgba(0, 0, 0, 0.08) var(--progress-deg)
+  );
+  max-width: 560px;
+  margin: var(--space-8, 32px) auto 0;
+  animation: whoiscrm-border-pulse 2s ease-in-out infinite;
+}
+.whoiscrm-upload-progress-card--success {
+  background: conic-gradient(#22c55e 360deg, #22c55e 360deg) !important;
+  animation: none;
+  box-shadow: 0 0 24px rgba(34, 197, 94, 0.25);
+}
+.whoiscrm-upload-progress-card--error {
+  background: conic-gradient(var(--color-danger, #dc3545) 360deg, var(--color-danger, #dc3545) 360deg) !important;
+  animation: none;
+}
+.whoiscrm-upload-progress-card__inner {
+  background: var(--color-surface, #fff);
+  border-radius: calc(var(--radius-lg, 12px) - 2px);
+  padding: 56px 48px;
+  text-align: center;
+}
+
+/* ── Percentage counter ──────────────────────────────────────── */
+.whoiscrm-progress-pct {
+  font-size: 3rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-primary, #ff6621);
+  line-height: 1;
+  margin-bottom: var(--space-5, 20px);
+  letter-spacing: -0.02em;
+}
+
+/* ── Horizontal progress bar ─────────────────────────────────── */
+.whoiscrm-progress-bar-track {
+  width: 100%;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: var(--space-4, 16px);
+}
+.whoiscrm-progress-bar-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-primary, #ff6621), #ff8f5e);
+  background-size: 200% 100%;
+  transition: width 0.25s ease-out;
+  animation: whoiscrm-shimmer 1.8s ease-in-out infinite;
+}
+
+/* ── Status label ────────────────────────────────────────────── */
+.whoiscrm-progress-label {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text-muted, #71717a);
+}
+
+/* ── Success state ───────────────────────────────────────────── */
+.whoiscrm-success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #22c55e;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-4, 16px);
+  animation: whoiscrm-bounce-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.whoiscrm-error-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--color-danger, #dc3545);
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-4, 16px);
+  animation: whoiscrm-bounce-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.whoiscrm-success-title {
+  margin: 0 0 var(--space-2, 8px);
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--color-text-primary, #18181b);
+}
+.whoiscrm-success-subtitle {
+  margin: 0 0 var(--space-2, 8px);
+  font-size: 0.9375rem;
+  color: var(--color-text-muted, #71717a);
+}
+.whoiscrm-success-redirect {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted, #71717a);
+  opacity: 0.7;
+}
+
+/* ── Keyframe animations ─────────────────────────────────────── */
+@keyframes whoiscrm-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes whoiscrm-border-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 102, 33, 0.15); }
+  50%      { box-shadow: 0 0 20px rgba(255, 102, 33, 0.35); }
+}
+@keyframes whoiscrm-bounce-in {
+  0%   { transform: scale(0); opacity: 0; }
+  60%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); }
+}
+</style>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  /* ── Existing: Element references ────────────────────────────── */
   const dropZone = document.getElementById('whoiscrm-drop-zone');
   const fileInput = document.getElementById('whoiscrm-file-input');
   const selectedFilesContainer = document.getElementById('whoiscrm-selected-files');
@@ -137,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const countrySelect = document.getElementById('country_code');
   const countryNameInput = document.getElementById('country_name');
 
-  // Handle Country Name synchronization
+  /* ── Existing: Country name synchronisation ──────────────────── */
   if (countrySelect && countryNameInput) {
     countrySelect.addEventListener('change', function() {
       const selectedOption = countrySelect.options[countrySelect.selectedIndex];
@@ -145,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Visual effects for Drag & Drop
+  /* ── Existing: Drag-and-drop visual effects ──────────────────── */
   ['dragenter', 'dragover'].forEach(eventName => {
     dropZone.addEventListener(eventName, function(e) {
       e.preventDefault();
@@ -162,13 +336,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }, false);
   });
 
-  // Handle File selection
+  /* ── Existing: Selected file list display ────────────────────── */
   fileInput.addEventListener('change', function() {
     filesListUl.innerHTML = '';
-    
+
     if (fileInput.files.length > 0) {
       selectedFilesContainer.style.display = 'block';
-      
+
       Array.from(fileInput.files).forEach(file => {
         const li = document.createElement('li');
         li.style.display = 'flex';
@@ -178,7 +352,7 @@ document.addEventListener('DOMContentLoaded', function() {
         li.style.border = '1px solid var(--color-border)';
         li.style.borderRadius = 'var(--radius-md)';
         li.style.fontSize = '0.875rem';
-        
+
         const sizeMb = (file.size / 1024 / 1024).toFixed(2);
         li.innerHTML = `
           <span style="font-weight: 500; color: var(--color-text-primary); flex-grow: 1;">${escapeHtml(file.name)}</span>
@@ -194,5 +368,164 @@ document.addEventListener('DOMContentLoaded', function() {
   function escapeHtml(str) {
     return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
   }
+
+  /* ════════════════════════════════════════════════════════════════
+   *  NEW: AJAX Upload with Real-Time Progress
+   * ════════════════════════════════════════════════════════════════ */
+  const uploadForm       = document.querySelector('form[enctype="multipart/form-data"]');
+  const progressOverlay  = document.getElementById('whoiscrm-upload-overlay');
+  const progressCard     = document.getElementById('whoiscrm-progress-card');
+  const progressPct      = document.getElementById('whoiscrm-progress-pct');
+  const progressBarFill  = document.getElementById('whoiscrm-progress-bar-fill');
+  const progressLabel    = document.getElementById('whoiscrm-progress-label');
+  const progressState    = document.getElementById('whoiscrm-progress-state');
+  const successState     = document.getElementById('whoiscrm-success-state');
+  const successDetail    = document.getElementById('whoiscrm-success-detail');
+  const errorState       = document.getElementById('whoiscrm-error-state');
+  const errorMessage     = document.getElementById('whoiscrm-error-message');
+  const retryBtn         = document.getElementById('whoiscrm-retry-btn');
+
+  if (uploadForm && progressOverlay) {
+    uploadForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      /* ── Client-side required-field validation ──────────────── */
+      const serviceType = document.getElementById('service_type');
+      const dataDate    = document.getElementById('data_date');
+
+      if (!serviceType.value) {
+        serviceType.focus();
+        return;
+      }
+      if (!dataDate.value) {
+        dataDate.focus();
+        return;
+      }
+      if (!fileInput.files || fileInput.files.length === 0) {
+        dropZone.style.borderColor = 'var(--color-danger, #dc3545)';
+        dropZone.style.backgroundColor = 'rgba(220, 53, 69, 0.04)';
+        setTimeout(() => {
+          dropZone.style.borderColor = 'var(--color-border-strong)';
+          dropZone.style.backgroundColor = 'var(--color-surface)';
+        }, 1500);
+        return;
+      }
+
+      /* ── Switch UI to progress view ────────────────────────── */
+      uploadForm.style.display = 'none';
+      progressOverlay.style.display = 'block';
+      resetProgressUI();
+
+      /* ── Build FormData from the form ──────────────────────── */
+      const formData = new FormData(uploadForm);
+
+      /* ── XMLHttpRequest (supports upload.onprogress) ───────── */
+      const xhr = new XMLHttpRequest();
+
+      xhr.upload.addEventListener('progress', function(ev) {
+        if (!ev.lengthComputable) return;
+
+        const pct = Math.round((ev.loaded / ev.total) * 100);
+        updateProgress(pct);
+
+        if (pct >= 100) {
+          progressLabel.textContent = '<?php echo esc_js(__('Processing on server…', 'whois-crm')); ?>';
+        }
+      });
+
+      xhr.addEventListener('load', function() {
+        updateProgress(100);
+
+        let redirectUrl = '<?php echo esc_js(admin_url('admin.php?page=whoiscrm-data-files')); ?>';
+        let uploadedCount = 0;
+        let skippedCount  = 0;
+
+        try {
+          const resp = JSON.parse(xhr.responseText);
+          if (resp.success) {
+            uploadedCount = resp.data.uploaded || 0;
+            skippedCount  = resp.data.skipped  || 0;
+            redirectUrl   = resp.data.redirect || redirectUrl;
+          } else {
+            /* Server returned a validation error */
+            showError(resp.data && resp.data.message
+              ? resp.data.message
+              : '<?php echo esc_js(__('An unexpected error occurred.', 'whois-crm')); ?>');
+            return;
+          }
+        } catch (parseErr) {
+          /* Non-JSON response (fallback redirect) */
+        }
+
+        showSuccess(uploadedCount, skippedCount, redirectUrl);
+      });
+
+      xhr.addEventListener('error', function() {
+        showError('<?php echo esc_js(__('Network error — check your connection and try again.', 'whois-crm')); ?>');
+      });
+
+      xhr.addEventListener('abort', function() {
+        showError('<?php echo esc_js(__('Upload was cancelled.', 'whois-crm')); ?>');
+      });
+
+      xhr.open('POST', uploadForm.action, true);
+      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+      xhr.send(formData);
+    });
+
+    /* ── Retry button ─────────────────────────────────────────── */
+    if (retryBtn) {
+      retryBtn.addEventListener('click', function() {
+        progressOverlay.style.display = 'none';
+        uploadForm.style.display = 'block';
+      });
+    }
+  }
+
+  /* ── Helper: update progress UI ──────────────────────────────── */
+  function updateProgress(pct) {
+    const clamped = Math.min(100, Math.max(0, pct));
+    const deg = (clamped / 100) * 360;
+
+    progressCard.style.setProperty('--progress-deg', deg + 'deg');
+    progressPct.textContent  = clamped + '%';
+    progressBarFill.style.width = clamped + '%';
+  }
+
+  /* ── Helper: show success state ──────────────────────────────── */
+  function showSuccess(uploadedCount, skippedCount, redirectUrl) {
+    progressState.style.display = 'none';
+    successState.style.display  = 'block';
+    progressCard.classList.add('whoiscrm-upload-progress-card--success');
+
+    let detail = uploadedCount + ' <?php echo esc_js(__('file(s) uploaded', 'whois-crm')); ?>';
+    if (skippedCount > 0) {
+      detail += ', ' + skippedCount + ' <?php echo esc_js(__('skipped', 'whois-crm')); ?>';
+    }
+    successDetail.textContent = detail;
+
+    setTimeout(function() {
+      window.location.href = redirectUrl;
+    }, 2000);
+  }
+
+  /* ── Helper: show error state ────────────────────────────────── */
+  function showError(msg) {
+    progressState.style.display = 'none';
+    errorState.style.display    = 'block';
+    errorMessage.textContent    = msg;
+    progressCard.classList.add('whoiscrm-upload-progress-card--error');
+  }
+
+  /* ── Helper: reset progress UI to initial state ──────────────── */
+  function resetProgressUI() {
+    progressState.style.display = 'block';
+    successState.style.display  = 'none';
+    errorState.style.display    = 'none';
+    progressCard.classList.remove('whoiscrm-upload-progress-card--success', 'whoiscrm-upload-progress-card--error');
+    updateProgress(0);
+    progressLabel.textContent = '<?php echo esc_js(__('Uploading your files…', 'whois-crm')); ?>';
+  }
 });
 </script>
+
