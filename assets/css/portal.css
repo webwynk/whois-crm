@@ -808,6 +808,32 @@
   flex-grow: 1;
 }
 
+/* ─── Buttons Baseline Styles ────────────────────────────────────────────── */
+.whoiscrm-btn {
+  border-radius: 10px !important;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-weight: 700 !important;
+  transition: all 180ms ease-out !important;
+}
+
+.whoiscrm-btn--lg {
+  border-radius: 10px !important;
+  padding: 14px 24px !important;
+  font-size: 1rem !important;
+}
+
+.whoiscrm-btn--md {
+  border-radius: 10px !important;
+  padding: 10px 20px !important;
+  font-size: 0.875rem !important;
+}
+
+.whoiscrm-btn--sm {
+  border-radius: 10px !important;
+  padding: 8px 16px !important;
+  font-size: 0.8125rem !important;
+}
+
 .whoiscrm-pricing-card-features li {
   font-size: 0.875rem !important;
   color: #5C5C6B !important;
@@ -818,21 +844,24 @@
 }
 
 .whoiscrm-pricing-feature-check {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: rgba(29,185,84,0.12);
-  color: #14803C;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 50% !important;
+  background: rgba(29,185,84,0.14) !important;
+  color: #14803C !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
 }
 .whoiscrm-pricing-feature-check svg {
-  width: 11px;
-  height: 11px;
-  stroke: #14803C;
-  stroke-width: 3;
+  width: 12px !important;
+  height: 12px !important;
+  stroke: #14803C !important;
+  stroke-width: 2.5 !important;
+  fill: none !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
 }
 
 /* ─── Country Plans Grid — Modern Card Design ───────────────────────────── */
@@ -920,6 +949,25 @@
   justify-content: space-between;
   padding-top: 16px;
   border-top: 1px solid var(--color-border);
+}
+
+.whoiscrm-country-card-footer .whoiscrm-btn {
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  padding: 10px 20px !important;
+  font-size: 0.875rem !important;
+  background: linear-gradient(135deg, #FF6621 0%, #E5571A 100%) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(255, 102, 33, 0.25) !important;
+  transition: transform 180ms ease, box-shadow 180ms ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+.whoiscrm-country-card-footer .whoiscrm-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(255, 102, 33, 0.40) !important;
 }
 
 .whoiscrm-country-card-price {

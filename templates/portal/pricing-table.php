@@ -284,7 +284,7 @@ $country_flags = [
               <button type="button" class="whoiscrm-btn whoiscrm-btn--primary whoiscrm-btn--sm js-subscribe-btn" 
                       data-pricing-id="<?php echo $pricing_id_country; ?>" 
                       data-nonce="<?php echo esc_attr($nonce); ?>">
-                <?php esc_html_e('Subscribe', 'whois-crm'); ?>
+                <?php esc_html_e('Subscribe →', 'whois-crm'); ?>
               </button>
             </div>
           </div>
