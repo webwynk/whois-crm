@@ -20,18 +20,6 @@ if (!defined('ABSPATH')) { exit; }
 <div class="whoiscrm-auth-page">
   <div class="whoiscrm-auth-card">
 
-    <!-- Brand Header -->
-    <div class="whoiscrm-auth-brand-header">
-      <div class="whoiscrm-auth-logo-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5" fill="none"/>
-          <ellipse cx="12" cy="12" rx="4" ry="10" stroke="white" stroke-width="1.5" fill="none"/>
-          <path d="M2 12h20" stroke="white" stroke-width="1.5"/>
-        </svg>
-      </div>
-      <span class="whoiscrm-auth-brand-title"><?php echo esc_html(get_bloginfo('name')); ?></span>
-    </div>
-
     <!-- Heading -->
     <div class="whoiscrm-auth-heading">
       <h1><?php esc_html_e('Set new password', 'whois-crm'); ?></h1>

@@ -98,51 +98,16 @@
 
 /* ─── Centered Auth Card ─────────────────────────────────────────────────── */
 .whoiscrm-auth-card {
-  width: 100%;
-  max-width: 440px;
+  width: 100% !important;
+  max-width: 420px !important;
   background: var(--color-white) !important;
   border: 1px solid var(--color-border) !important;
   border-radius: 20px !important;
   box-shadow: var(--shadow-xl) !important;
-  padding: 40px 36px !important;
+  padding: 36px 32px !important;
   margin: 0 auto !important;
   animation: scaleIn var(--duration-slow) var(--ease-out) both;
   position: relative;
-}
-
-/* ─── Brand Header inside Card ────────────────────────────────────────────── */
-.whoiscrm-auth-brand-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
-  margin-bottom: var(--space-6);
-  text-align: center;
-}
-
-.whoiscrm-auth-logo-icon {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 14px rgba(255,102,33,.28);
-  margin-bottom: var(--space-1);
-}
-.whoiscrm-auth-logo-icon svg {
-  width: 24px;
-  height: 24px;
-  color: #fff;
-  fill: none;
-}
-
-.whoiscrm-auth-brand-title {
-  font-size: 1.125rem !important;
-  font-weight: 700 !important;
-  color: var(--color-text-primary) !important;
-  letter-spacing: -0.01em;
 }
 
 /* ─── Form Heading ──────────────────────────────────────────────────────── */
