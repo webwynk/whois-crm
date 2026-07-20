@@ -219,9 +219,16 @@ $active_to      = $filters['date_to'] ?? '';
                     📥
                   </a>
                   
-                  <button type="submit" class="whoiscrm-btn whoiscrm-btn--danger whoiscrm-btn--sm js-delete-single-file-btn" data-file-id="<?php echo (int) $row->id; ?>" style="padding: 0 8px; height: 28px;">
+                  <?php
+                  $delete_url = wp_nonce_url(
+                      admin_url('admin-post.php?action=whoiscrm_delete_data_file&file_id=' . (int) $row->id),
+                      'whoiscrm_delete_file_' . (int) $row->id
+                  );
+                  ?>
+                  <a href="<?php echo esc_url($delete_url); ?>" class="whoiscrm-btn whoiscrm-btn--danger whoiscrm-btn--sm js-delete-single-file-btn" style="padding: 0 8px; height: 28px; line-height: 26px; display:inline-flex; align-items:center;"
+                     data-confirm="<?php esc_attr_e('Are you sure you want to permanently delete this data file from disk?', 'whois-crm'); ?>">
                     ✕
-                  </button>
+                  </a>
                 </div>
               </td>
             </tr>
@@ -241,20 +248,13 @@ $active_to      = $filters['date_to'] ?? '';
   </div>
 </form>
 
-<!-- Single File Delete Form (Submits to admin-post) -->
-<form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" id="whoiscrm-single-delete-form" style="display: none;">
-  <?php wp_nonce_field('whoiscrm_data_file_action', 'whoiscrm_data_file_action'); ?>
-  <input type="hidden" name="action" value="whoiscrm_delete_data_file">
-  <input type="hidden" name="file_id" id="whoiscrm-delete-file-id" value="">
-</form>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const selectAllCheckbox = document.getElementById('whoiscrm-select-all-checkbox');
   const fileCheckboxes = document.querySelectorAll('.whoiscrm-file-checkbox');
   const bulkForm = document.getElementById('whoiscrm-bulk-form');
-  const singleDeleteForm = document.getElementById('whoiscrm-single-delete-form');
-  const deleteFileIdInput = document.getElementById('whoiscrm-delete-file-id');
 
   // Toggle selection for all checkboxes
   if (selectAllCheckbox) {
@@ -269,9 +269,9 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.js-delete-single-file-btn').forEach(btn => {
     btn.addEventListener('click', function(e) {
       e.preventDefault();
-      if (confirm('<?php esc_js(esc_html_e('Are you sure you want to permanently delete this data file from disk?', 'whois-crm')); ?>')) {
-        deleteFileIdInput.value = btn.dataset.fileId;
-        singleDeleteForm.submit();
+      const msg = btn.dataset.confirm || 'Are you sure you want to permanently delete this file?';
+      if (confirm(msg)) {
+        window.location.href = btn.href;
       }
     });
   });

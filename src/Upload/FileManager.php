@@ -28,17 +28,18 @@ class FileManager
 
     public function handle_delete(): void
     {
-        check_admin_referer('whoiscrm_data_file_action');
-
-        if (!current_user_can('whoiscrm_upload_data')) {
-            wp_die(__('Unauthorized.', 'whois-crm'));
-        }
-
-        $file_id = (int) ($_POST['file_id'] ?? 0);
+        $file_id = (int) ($_GET['file_id'] ?? 0);
 
         if ($file_id < 1) {
             wp_safe_redirect(admin_url('admin.php?page=whoiscrm-data-files'));
             exit;
+        }
+
+        // Verify per-row nonce (generated with wp_nonce_url in the template)
+        check_admin_referer('whoiscrm_delete_file_' . $file_id);
+
+        if (!current_user_can('whoiscrm_upload_data')) {
+            wp_die(__('Unauthorized.', 'whois-crm'));
         }
 
         $this->delete_file($file_id);
