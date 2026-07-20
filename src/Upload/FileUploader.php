@@ -62,7 +62,10 @@ class FileUploader
 
     public function __construct()
     {
+        // Standard form POST (admin-post.php)
         add_action('admin_post_whoiscrm_upload_files', [$this, 'handle_upload']);
+        // AJAX POST (admin-ajax.php) for logged-in admins
+        add_action('wp_ajax_whoiscrm_upload_files', [$this, 'handle_upload']);
     }
 
     /**
@@ -76,7 +79,7 @@ class FileUploader
         check_admin_referer('whoiscrm_upload_nonce', 'whoiscrm_upload_nonce');
 
         if (!current_user_can('whoiscrm_upload_data')) {
-            wp_die(__('Unauthorized. You do not have permission to upload data files.', 'whois-crm'));
+            $this->redirect_error('Unauthorized. You do not have permission to upload data files.');
         }
 
         // ── Collect & sanitize POST fields ───────────────────────────
@@ -86,6 +89,10 @@ class FileUploader
         $tld          = sanitize_text_field(wp_unslash($_POST['tld'] ?? ''));
         $data_date    = sanitize_text_field(wp_unslash($_POST['data_date'] ?? ''));
         $notes        = sanitize_textarea_field(wp_unslash($_POST['notes'] ?? ''));
+
+        // Ensure country fields are empty string (not null) to match DB NOT NULL column
+        $country_code = $country_code ?: '';
+        $country_name = $country_name ?: '';
 
         // ── Field validation ─────────────────────────────────────────
         if (empty($service_type)) {

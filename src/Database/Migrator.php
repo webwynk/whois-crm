@@ -41,6 +41,7 @@ class Migrator
             '1.0.0' => [self::class, 'migrate_to_1_0_0'],
             '1.0.3' => [self::class, 'migrate_to_1_0_3'],
             '1.1.0' => [self::class, 'migrate_to_1_1_0'],
+            '1.1.1' => [self::class, 'migrate_to_1_1_1'],
         ];
 
         foreach ($migrations as $version => $callback) {
@@ -83,6 +84,28 @@ class Migrator
             // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table name is built from $wpdb->prefix, ALTER TABLE is static.
             $wpdb->query("ALTER TABLE {$table} ADD COLUMN notes text NULL AFTER service_type");
         }
+
+        Schema::create_tables();
+    }
+
+    /**
+     * Widen country_code to varchar(10) and add DEFAULT '' to country fields (1.1.1).
+     *
+     * Fixes upload failure when 'Global / All Countries' is selected (empty string
+     * violated the original NOT NULL varchar(2) constraint).
+     */
+    private static function migrate_to_1_1_1(): void
+    {
+        global $wpdb;
+        $table = $wpdb->prefix . 'whoiscrm_data_files';
+
+        // Widen country_code and add default
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        $wpdb->query("ALTER TABLE {$table} MODIFY COLUMN country_code varchar(10) NOT NULL DEFAULT ''");
+
+        // Add default to country_name
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        $wpdb->query("ALTER TABLE {$table} MODIFY COLUMN country_name varchar(100) NOT NULL DEFAULT ''");
 
         Schema::create_tables();
     }

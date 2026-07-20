@@ -33,7 +33,8 @@ $service_types = [
   </div>
 <?php endif; ?>
 
-<form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" enctype="multipart/form-data">
+<form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" enctype="multipart/form-data"
+      data-ajax-url="<?php echo esc_url(admin_url('admin-ajax.php')); ?>">
   <?php wp_nonce_field('whoiscrm_upload_nonce', 'whoiscrm_upload_nonce'); ?>
   <input type="hidden" name="action" value="whoiscrm_upload_files">
 
@@ -470,7 +471,12 @@ document.addEventListener('DOMContentLoaded', function() {
         showError('<?php echo esc_js(__('Upload was cancelled.', 'whois-crm')); ?>');
       });
 
-      xhr.open('POST', uploadForm.action, true);
+      /* ── Determine correct endpoint ────────────────────────── */
+      // Use admin-ajax.php for AJAX (returns clean JSON).
+      // The plain-form fallback action on admin-post.php stays intact.
+      const ajaxUrl = uploadForm.dataset.ajaxUrl || uploadForm.action;
+
+      xhr.open('POST', ajaxUrl, true);
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.send(formData);
     });
