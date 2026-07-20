@@ -1,97 +1,70 @@
 <?php
 /**
- * Template: Customer Portal Invoices List
+ * Template: Customer Portal Invoices Tab
  *
  * Variables:
- *  $invoices  array  List of Invoice objects for this customer
+ *  $invoices  array List of invoice objects
  */
 declare(strict_types=1);
 if (!defined('ABSPATH')) { exit; }
-
-$currency_symbol = '$';
 ?>
 
-<div style="margin-bottom: var(--space-6);">
-  <h3 style="margin: 0 0 var(--space-1) 0; font-size: var(--text-h2); font-weight: 700; color: var(--color-black);">
-    <?php esc_html_e('Billing Invoices', 'whois-crm'); ?>
-  </h3>
-  <p style="margin: 0; color: var(--color-text-secondary); font-size: 0.9375rem;">
-    <?php esc_html_e('Access and download PDF copies of all billing invoices generated for your account.', 'whois-crm'); ?>
-  </p>
+<div class="whoiscrm-portal-greeting">
+  <h3><?php esc_html_e('Billing & Invoices', 'whois-crm'); ?></h3>
+  <p><?php esc_html_e('View your payment receipts and download PDF invoices for tax reporting.', 'whois-crm'); ?></p>
 </div>
 
 <div class="whoiscrm-table-wrapper">
-  <table class="whoiscrm-table">
-    <thead>
-      <tr>
-        <th><?php esc_html_e('Invoice #', 'whois-crm'); ?></th>
-        <th><?php esc_html_e('Date', 'whois-crm'); ?></th>
-        <th><?php esc_html_e('Subtotal', 'whois-crm'); ?></th>
-        <th><?php esc_html_e('Discount', 'whois-crm'); ?></th>
-        <th><?php esc_html_e('Tax', 'whois-crm'); ?></th>
-        <th><?php esc_html_e('Total Charged', 'whois-crm'); ?></th>
-        <th><?php esc_html_e('Status', 'whois-crm'); ?></th>
-        <th><?php esc_html_e('Action', 'whois-crm'); ?></th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php if (empty($invoices)) : ?>
+  <div class="whoiscrm-table-responsive">
+    <table class="whoiscrm-table">
+      <thead>
         <tr>
-          <td colspan="8" style="text-align: center; padding: var(--space-10); color: var(--color-text-muted);">
-            <?php esc_html_e('No invoices recorded for your account yet.', 'whois-crm'); ?>
-          </td>
+          <th><?php esc_html_e('Invoice #', 'whois-crm'); ?></th>
+          <th><?php esc_html_e('Date', 'whois-crm'); ?></th>
+          <th><?php esc_html_e('Amount', 'whois-crm'); ?></th>
+          <th><?php esc_html_e('Status', 'whois-crm'); ?></th>
+          <th style="text-align: right;"><?php esc_html_e('Action', 'whois-crm'); ?></th>
         </tr>
-      <?php else : ?>
-        <?php foreach ($invoices as $invoice) :
-          $status_class = 'whoiscrm-badge--muted';
-          if ($invoice->status === 'paid') {
-              $status_class = 'whoiscrm-badge--success';
-          } elseif ($invoice->status === 'unpaid') {
-              $status_class = 'whoiscrm-badge--warning';
-          } elseif ($invoice->status === 'void') {
-              $status_class = 'whoiscrm-badge--danger';
-          }
-          ?>
+      </thead>
+      <tbody>
+        <?php if (empty($invoices)) : ?>
           <tr>
-            <td>
-              <strong><?php echo esc_html($invoice->invoice_number); ?></strong>
-            </td>
-            <td>
-              <span><?php echo esc_html(gmdate('Y-m-d', strtotime($invoice->invoice_date))); ?></span>
-            </td>
-            <td>
-              <span><?php echo esc_html($currency_symbol . number_format((float)$invoice->subtotal, 2)); ?></span>
-            </td>
-            <td>
-              <span><?php echo (float)$invoice->discount > 0 ? esc_html('-' . $currency_symbol . number_format((float)$invoice->discount, 2)) : '—'; ?></span>
-            </td>
-            <td>
-              <span><?php echo (float)$invoice->tax_amount > 0 ? esc_html($currency_symbol . number_format((float)$invoice->tax_amount, 2)) : '—'; ?></span>
-            </td>
-            <td style="font-weight: 600;">
-              <span><?php echo esc_html($currency_symbol . number_format((float)$invoice->total, 2)); ?></span>
-            </td>
-            <td>
-              <span class="whoiscrm-badge <?php echo esc_attr($status_class); ?>">
-                <?php echo esc_html($invoice->status); ?>
-              </span>
-            </td>
-            <td>
-              <?php
-              $download_url = (new \WhoisCRM\Database\Models\Invoice())->get_download_url($invoice);
-              if ($download_url) : ?>
-                <a href="<?php echo esc_url($download_url); ?>" class="whoiscrm-btn whoiscrm-btn--ghost whoiscrm-btn--sm" style="font-size: 0.8125rem; height: 28px;">
-                  📄 <?php esc_html_e('Download PDF', 'whois-crm'); ?>
-                </a>
-              <?php else : ?>
-                <span style="font-size: 0.8125rem; color: var(--color-text-muted); font-style: italic;">
-                  <?php esc_html_e('Generating...', 'whois-crm'); ?>
-                </span>
-              <?php endif; ?>
+            <td colspan="5" style="text-align: center; padding: 48px 16px; color: var(--color-text-muted);">
+              <?php esc_html_e('No billing invoices available yet.', 'whois-crm'); ?>
             </td>
           </tr>
-        <?php endforeach; ?>
-      <?php endif; ?>
-    </tbody>
-  </table>
+        <?php else : ?>
+          <?php foreach ($invoices as $inv) :
+            $is_paid = strtolower($inv->status ?? '') === 'paid';
+            $badge = $is_paid ? 'whoiscrm-badge--success' : 'whoiscrm-badge--warning';
+          ?>
+            <tr>
+              <td>
+                <strong style="color: var(--color-text-primary); font-size: 0.875rem;"><?php echo esc_html($inv->invoice_number); ?></strong>
+              </td>
+              <td style="font-size: 0.8125rem; color: var(--color-text-muted); white-space: nowrap;">
+                <?php echo esc_html($inv->created_at); ?>
+              </td>
+              <td>
+                <strong style="color: var(--color-text-primary); font-size: 0.875rem;">$<?php echo esc_html(number_format((float)$inv->amount, 2)); ?></strong>
+              </td>
+              <td>
+                <span class="whoiscrm-badge <?php echo esc_attr($badge); ?>"><?php echo esc_html($inv->status); ?></span>
+              </td>
+              <td style="text-align: right; white-space: nowrap;">
+                <?php if (!empty($inv->pdf_url)) : ?>
+                  <a href="<?php echo esc_url($inv->pdf_url); ?>" class="whoiscrm-btn whoiscrm-btn--ghost whoiscrm-btn--sm" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <span><?php esc_html_e('PDF Invoice', 'whois-crm'); ?></span>
+                  </a>
+                <?php else : ?>
+                  <span style="font-size: 0.75rem; color: var(--color-text-muted);"><?php esc_html_e('N/A', 'whois-crm'); ?></span>
+                <?php endif; ?>
+              </td>
+            </tr>
+          <?php endforeach; ?>
+        <?php endif; ?>
+      </tbody>
+    </table>
+  </div>
 </div>

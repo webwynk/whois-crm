@@ -1,44 +1,98 @@
 /* ─── Customer Portal Styles ────────────────────────────────────────────── */
 
-.whoiscrm-portal {
-  font-family: var(--font-family);
-  color: var(--color-text-primary);
-  background: var(--color-surface);
-  min-height: 400px;
-  box-sizing: border-box;
-}
+/* Import DM Sans */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
 
+.whoiscrm-portal,
 .whoiscrm-portal * {
   box-sizing: border-box;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }
 
-/* ─── Portal Layout & Header ─────────────────────────────────────────────── */
+.whoiscrm-portal {
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  min-height: 500px;
+  width: 100%;
+  padding: 24px 0 48px;
+}
+
+/* ─── 1200px Max-Width Desktop Container ─────────────────────────────────── */
+.whoiscrm-portal-container {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 24px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* ─── Header Bar & User Meta ─────────────────────────────────────────────── */
 .whoiscrm-portal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-4) 0;
-  border-bottom: 1px solid var(--color-border);
-  margin-bottom: var(--space-6);
+  padding: 16px 24px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.whoiscrm-portal-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.whoiscrm-portal-brand-logo {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(255,102,33,0.25);
+  flex-shrink: 0;
+}
+.whoiscrm-portal-brand-logo svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.whoiscrm-portal-brand-name {
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  color: var(--color-text-primary) !important;
+  margin: 0 !important;
+  letter-spacing: -0.01em;
 }
 
 .whoiscrm-portal-user-meta {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: 12px;
 }
 
 .whoiscrm-portal-user-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-full);
-  background: var(--color-primary-light);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 1.1rem;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  box-shadow: 0 2px 8px rgba(255,102,33,0.20);
+  flex-shrink: 0;
 }
 
 .whoiscrm-portal-user-info {
@@ -47,54 +101,388 @@
 }
 
 .whoiscrm-portal-user-name {
-  font-weight: 600;
-  color: var(--color-text-primary);
+  font-weight: 700 !important;
+  font-size: 0.9375rem !important;
+  color: var(--color-text-primary) !important;
+  line-height: 1.2;
 }
 
 .whoiscrm-portal-user-role {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
+  font-size: 0.75rem !important;
+  color: var(--color-text-muted) !important;
+  font-weight: 500 !important;
 }
 
-/* ─── Navigation Tabs ───────────────────────────────────────────────────── */
+.whoiscrm-portal-logout-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  color: var(--color-text-secondary) !important;
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  text-decoration: none !important;
+  transition: all var(--duration-fast);
+}
+.whoiscrm-portal-logout-btn:hover {
+  background: rgba(229,53,53,0.06) !important;
+  border-color: rgba(229,53,53,0.20) !important;
+  color: var(--color-danger) !important;
+}
+
+/* ─── Navigation Tabs — Scrollable Pill Bar ─────────────────────────────── */
 .whoiscrm-portal-nav {
   display: flex;
-  gap: var(--space-1);
+  gap: 6px;
   overflow-x: auto;
-  border-bottom: 1px solid var(--color-border);
-  margin-bottom: var(--space-6);
-  padding-bottom: 2px;
+  -webkit-overflow-scrolling: touch;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 6px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+  scrollbar-width: none; /* Firefox */
+}
+.whoiscrm-portal-nav::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 .whoiscrm-portal-nav-item {
   display: inline-flex;
   align-items: center;
-  padding: 10px var(--space-4);
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  border-bottom: 2px solid transparent;
-  transition: color var(--duration-fast), border-color var(--duration-fast);
+  gap: 8px;
+  padding: 10px 18px;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  color: var(--color-text-secondary) !important;
+  text-decoration: none !important;
+  border-radius: var(--radius-lg);
+  transition: all var(--duration-fast);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .whoiscrm-portal-nav-item:hover {
-  color: var(--color-text-primary);
+  color: var(--color-text-primary) !important;
+  background: var(--color-surface) !important;
 }
 
 .whoiscrm-portal-nav-item.is-active {
+  color: var(--color-primary) !important;
+  background: rgba(255, 102, 33, 0.09) !important;
+}
+.whoiscrm-portal-nav-item.is-active svg {
+  stroke: var(--color-primary) !important;
+}
+
+/* ─── Main Content Box ──────────────────────────────────────────────────── */
+.whoiscrm-portal-content-box {
+  width: 100%;
+}
+
+/* ─── Dashboard Greeting ────────────────────────────────────────────────── */
+.whoiscrm-portal-greeting {
+  margin-bottom: 24px;
+}
+.whoiscrm-portal-greeting h3 {
+  margin: 0 0 4px 0 !important;
+  font-size: clamp(1.25rem, 2.5vw, 1.625rem) !important;
+  font-weight: 700 !important;
+  color: var(--color-text-primary) !important;
+  letter-spacing: -0.02em;
+}
+.whoiscrm-portal-greeting p {
+  margin: 0 !important;
+  color: var(--color-text-muted) !important;
+  font-size: 0.9375rem !important;
+}
+
+/* ─── Dashboard Stats Grid ───────────────────────────────────────────────── */
+.whoiscrm-portal-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.whoiscrm-portal-stat-card {
+  background: var(--color-white) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-xl) !important;
+  padding: 20px 24px !important;
+  box-shadow: var(--shadow-sm) !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform var(--duration-fast), box-shadow var(--duration-fast);
+}
+.whoiscrm-portal-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md) !important;
+}
+
+.whoiscrm-portal-stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.whoiscrm-portal-stat-label {
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  color: var(--color-text-muted) !important;
+  margin-bottom: 4px;
+}
+
+.whoiscrm-portal-stat-value {
+  font-size: 1.875rem !important;
+  font-weight: 700 !important;
+  color: var(--color-text-primary) !important;
+  line-height: 1;
+}
+
+.whoiscrm-portal-stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255,102,33,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--color-primary);
-  border-color: var(--color-primary);
-  font-weight: 600;
+  flex-shrink: 0;
+}
+.whoiscrm-portal-stat-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
 }
 
-/* ─── Auth/Access Denied notice ─────────────────────────────────────────── */
-.whoiscrm-portal-auth-notice,
-.whoiscrm-portal-auth-notice * {
-  box-sizing: border-box;
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+/* ─── Grid Split Rows ────────────────────────────────────────────────────── */
+.whoiscrm-portal-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: flex-start;
 }
 
+/* ─── Responsive Table Wrapper ────────────────────────────────────────────── */
+.whoiscrm-table-wrapper {
+  background: var(--color-white) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-sm) !important;
+  overflow: hidden;
+  width: 100%;
+}
+
+.whoiscrm-table-responsive {
+  width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+.whoiscrm-table-responsive::-webkit-scrollbar {
+  height: 6px;
+}
+.whoiscrm-table-responsive::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: 4px;
+}
+
+.whoiscrm-card__header {
+  padding: 16px 20px !important;
+  background: var(--color-surface) !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.whoiscrm-card__header h4 {
+  margin: 0 !important;
+  font-size: 0.9375rem !important;
+  font-weight: 700 !important;
+  color: var(--color-text-primary) !important;
+}
+
+/* Table styling */
+.whoiscrm-table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  text-align: left;
+}
+.whoiscrm-table th {
+  padding: 12px 16px !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  color: var(--color-text-muted) !important;
+  background: var(--color-surface) !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  white-space: nowrap;
+}
+.whoiscrm-table td {
+  padding: 14px 16px !important;
+  font-size: 0.875rem !important;
+  color: var(--color-text-primary) !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  vertical-align: middle;
+}
+.whoiscrm-table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+.whoiscrm-table tbody tr:hover {
+  background: rgba(248,248,250,0.80) !important;
+}
+
+/* ─── Status Badges ──────────────────────────────────────────────────────── */
+.whoiscrm-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.03em;
+  line-height: 1;
+}
+.whoiscrm-badge--success {
+  background: rgba(29, 185, 84, 0.12) !important;
+  color: #14803C !important;
+}
+.whoiscrm-badge--warning {
+  background: rgba(255, 176, 32, 0.15) !important;
+  color: #8A5E00 !important;
+}
+.whoiscrm-badge--danger {
+  background: rgba(229, 53, 53, 0.12) !important;
+  color: #C42B2B !important;
+}
+.whoiscrm-badge--info {
+  background: rgba(59, 130, 246, 0.12) !important;
+  color: #1D4ED8 !important;
+}
+
+/* ─── Buttons ────────────────────────────────────────────────────────────── */
+.whoiscrm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--radius-md);
+  font-family: 'DM Sans', sans-serif !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  cursor: pointer;
+  border: none;
+  transition: all var(--duration-fast);
+}
+.whoiscrm-btn--primary {
+  background: linear-gradient(135deg, #FF6621 0%, #E5571A 100%) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 8px rgba(255,102,33,0.25) !important;
+}
+.whoiscrm-btn--primary:hover {
+  filter: brightness(1.06) !important;
+  box-shadow: 0 4px 14px rgba(255,102,33,0.38) !important;
+  transform: translateY(-1px);
+}
+.whoiscrm-btn--ghost {
+  background: transparent !important;
+  color: var(--color-text-secondary) !important;
+  border: 1px solid var(--color-border) !important;
+}
+.whoiscrm-btn--ghost:hover {
+  background: var(--color-surface) !important;
+  color: var(--color-text-primary) !important;
+}
+.whoiscrm-btn--sm {
+  padding: 7px 14px;
+  font-size: 0.8125rem !important;
+}
+.whoiscrm-btn--md {
+  padding: 10px 20px;
+  font-size: 0.9375rem !important;
+}
+
+/* ─── Subscriptions Grid ─────────────────────────────────────────────────── */
+.whoiscrm-portal-subs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+.whoiscrm-portal-sub-card {
+  background: var(--color-white) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-xl) !important;
+  padding: 24px !important;
+  box-shadow: var(--shadow-sm) !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform var(--duration-fast), box-shadow var(--duration-fast);
+}
+.whoiscrm-portal-sub-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* ─── Filter Form Toolbars ───────────────────────────────────────────────── */
+.whoiscrm-filter-toolbar {
+  background: var(--color-white) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-xl) !important;
+  padding: 16px 20px !important;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm) !important;
+}
+.whoiscrm-filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+.whoiscrm-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 140px;
+  flex: 1 1 auto;
+}
+.whoiscrm-filter-label {
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  color: var(--color-text-muted) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.03em;
+}
+.whoiscrm-filter-input,
+.whoiscrm-filter-select {
+  height: 38px !important;
+  padding: 0 12px !important;
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-md) !important;
+  font-size: 0.875rem !important;
+  color: var(--color-text-primary) !important;
+  outline: none;
+  width: 100%;
+}
+.whoiscrm-filter-input:focus,
+.whoiscrm-filter-select:focus {
+  border-color: var(--color-primary) !important;
+  background: #fff !important;
+}
+
+/* ─── Auth Notice Card ───────────────────────────────────────────────────── */
 .whoiscrm-portal-auth-notice {
   width: 440px !important;
   flex: 0 0 440px !important;
@@ -113,7 +501,6 @@
   align-items: center !important;
 }
 
-/* Lock badge */
 .whoiscrm-portal-auth-icon-badge {
   width: 56px !important;
   height: 56px !important;
@@ -125,13 +512,11 @@
   justify-content: center !important;
   margin-bottom: 20px !important;
 }
-
 .whoiscrm-portal-auth-icon-badge svg {
   width: 26px !important;
   height: 26px !important;
   color: #FF6621 !important;
 }
-
 .whoiscrm-portal-auth-notice h3 {
   margin: 0 0 8px 0 !important;
   font-size: 1.5rem !important;
@@ -140,7 +525,6 @@
   letter-spacing: -0.02em !important;
   line-height: 1.25 !important;
 }
-
 .whoiscrm-portal-auth-notice p {
   color: #5C5C6B !important;
   font-size: 0.9375rem !important;
@@ -148,24 +532,19 @@
   line-height: 1.5 !important;
   max-width: 340px !important;
 }
-
 .whoiscrm-portal-auth-actions {
   display: flex !important;
   flex-direction: column !important;
   gap: 10px !important;
   width: 100% !important;
 }
-
-/* Primary Sign In Button */
-.whoiscrm-portal-btn-auth-primary,
-a.whoiscrm-portal-btn-auth-primary {
+.whoiscrm-portal-btn-auth-primary {
   width: 100% !important;
   height: 46px !important;
   background: linear-gradient(135deg, #FF6621 0%, #E5571A 100%) !important;
   color: #FFFFFF !important;
   border: none !important;
   border-radius: 8px !important;
-  font-family: 'DM Sans', sans-serif !important;
   font-size: 0.9375rem !important;
   font-weight: 600 !important;
   text-decoration: none !important;
@@ -174,346 +553,74 @@ a.whoiscrm-portal-btn-auth-primary {
   justify-content: center !important;
   gap: 8px !important;
   box-shadow: 0 4px 14px rgba(255,102,33,.30) !important;
-  transition: filter 150ms, box-shadow 150ms, transform 80ms !important;
 }
-
-.whoiscrm-portal-btn-auth-primary span {
-  color: #FFFFFF !important;
-  font-weight: 600 !important;
-}
-
-.whoiscrm-portal-btn-auth-primary svg {
-  width: 16px !important;
-  height: 16px !important;
-  stroke: #FFFFFF !important;
-}
-
-.whoiscrm-portal-btn-auth-primary:hover {
-  filter: brightness(1.06) !important;
-  box-shadow: 0 6px 18px rgba(255,102,33,.42) !important;
-  transform: translateY(-1px) !important;
-  color: #FFFFFF !important;
-}
-
-/* Secondary Create Account Button */
-.whoiscrm-portal-btn-auth-secondary,
-a.whoiscrm-portal-btn-auth-secondary {
+.whoiscrm-portal-btn-auth-secondary {
   width: 100% !important;
   height: 44px !important;
   background: transparent !important;
   color: #5C5C6B !important;
   border: 1px solid #E8E8EF !important;
   border-radius: 8px !important;
-  font-family: 'DM Sans', sans-serif !important;
   font-size: 0.875rem !important;
   font-weight: 600 !important;
   text-decoration: none !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  transition: background 150ms, border-color 150ms, color 150ms !important;
 }
 
-.whoiscrm-portal-btn-auth-secondary:hover {
-  background: #F8F8FA !important;
-  border-color: #D0D0DD !important;
-  color: #0A0A0B !important;
-}
-
-/* Alerts */
-.whoiscrm-portal-alert {
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-md);
-  margin-bottom: var(--space-5);
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.whoiscrm-portal-alert--danger {
-  background: rgba(225, 53, 53, 0.08);
-  color: var(--color-danger);
-  border: 1px solid rgba(225, 53, 53, 0.2);
-}
-
-/* ─── Dashboard Stats ───────────────────────────────────────────────────── */
-.whoiscrm-portal-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-5);
-  margin-bottom: var(--space-6);
-}
-
-.whoiscrm-portal-stat-card {
-  background: #fff;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-5);
-  box-shadow: var(--shadow-sm);
-  display: flex;
-  flex-direction: column;
-}
-
-.whoiscrm-portal-stat-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  margin-bottom: var(--space-1);
-}
-
-.whoiscrm-portal-stat-value {
-  font-size: var(--text-h1);
-  font-weight: 700;
-  color: var(--color-text-primary);
-}
-
-/* ─── Subscriptions Tab ─────────────────────────────────────────────────── */
-.whoiscrm-portal-subs-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-5);
-}
-
-.whoiscrm-portal-sub-card {
-  background: #fff;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6);
-  box-shadow: var(--shadow-sm);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  transition: transform var(--duration-fast), box-shadow var(--duration-fast);
-}
-
-.whoiscrm-portal-sub-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.whoiscrm-portal-sub-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: var(--space-4);
-}
-
-.whoiscrm-portal-sub-title {
-  font-size: var(--text-h3);
-  font-weight: 600;
-  margin: 0;
-  color: var(--color-text-primary);
-}
-
-.whoiscrm-portal-sub-meta {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--space-4);
-  line-height: 1.6;
-}
-
-/* ─── Public Pricing Layout ──────────────────────────────────────────────── */
-.whoiscrm-pricing-wrapper {
-  font-family: var(--font-family);
-  background: var(--color-surface);
-  padding: var(--space-10) 0;
-  box-sizing: border-box;
-}
-
-.whoiscrm-pricing-header {
-  text-align: center;
-  max-width: 640px;
-  margin: 0 auto var(--space-8) auto;
-}
-
-.whoiscrm-pricing-title {
-  font-size: var(--text-display);
-  font-weight: 700;
-  color: var(--color-black);
-  margin-bottom: var(--space-3);
-  letter-spacing: -0.02em;
-}
-
-.whoiscrm-pricing-subtitle {
-  font-size: var(--text-body-lg);
-  color: var(--color-text-secondary);
-}
-
-/* Toggle Billing Cycle */
-.whoiscrm-pricing-toggle-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-3);
-  margin-bottom: var(--space-10);
-}
-
-.whoiscrm-pricing-toggle-label {
-  font-weight: 600;
-  font-size: 0.9375rem;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  user-select: none;
-}
-
-.whoiscrm-pricing-toggle-label.is-active {
-  color: var(--color-primary);
-}
-
-/* Pricing Grid */
-.whoiscrm-pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-6);
-  align-items: stretch;
-  margin-bottom: var(--space-12);
-}
-
-.whoiscrm-pricing-card {
-  background: #fff;
-  border: 2px solid var(--color-border);
-  border-radius: var(--radius-2xl);
-  padding: var(--space-8);
-  box-shadow: var(--shadow-sm);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: transform var(--duration-normal) var(--ease-out),
-              box-shadow var(--duration-normal) var(--ease-out),
-              border-color var(--duration-normal) var(--ease-out);
-  animation: fadeInUp var(--duration-slow) var(--ease-out) both;
-}
-
-.whoiscrm-pricing-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-xl);
-  border-color: var(--color-primary);
-}
-
-.whoiscrm-pricing-card--featured {
-  border-color: var(--color-primary);
-  background: linear-gradient(180deg, #FFFDFB 0%, #FFFFFF 100%);
-  position: relative;
-}
-
-.whoiscrm-pricing-card--featured::before {
-  content: 'POPULAR';
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-primary);
-  color: #fff;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 4px 12px;
-  border-radius: var(--radius-full);
-}
-
-.whoiscrm-pricing-card-header {
-  margin-bottom: var(--space-5);
-}
-
-.whoiscrm-pricing-card-name {
-  font-size: var(--text-h3);
-  font-weight: 700;
-  color: var(--color-black);
-  margin-bottom: var(--space-2);
-}
-
-.whoiscrm-pricing-card-desc {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  line-height: 1.4;
-  min-height: 42px;
-}
-
-.whoiscrm-pricing-card-price-wrap {
-  margin: var(--space-5) 0;
-  display: flex;
-  align-items: baseline;
-  gap: 2px;
-}
-
-.whoiscrm-pricing-card-price {
-  font-size: var(--text-display);
-  font-weight: 700;
-  color: var(--color-black);
-  letter-spacing: -0.03em;
-}
-
-.whoiscrm-pricing-card-cycle {
-  font-size: 0.875rem;
-  color: var(--color-text-muted);
-}
-
-.whoiscrm-pricing-card-features {
-  margin: 0 0 var(--space-6) 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  flex-grow: 1;
-}
-
-.whoiscrm-pricing-card-features li {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-2);
-}
-
-.whoiscrm-pricing-card-features li::before {
-  content: '✓';
-  color: var(--color-success);
-  font-weight: 700;
-}
-
-/* Country Plans Grid */
-.whoiscrm-pricing-countries-title {
-  text-align: center;
-  font-size: var(--text-h2);
-  font-weight: 700;
-  margin-bottom: var(--space-6);
-}
-
-.whoiscrm-pricing-countries-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-5);
-}
-
-.whoiscrm-pricing-country-card {
-  background: #fff;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  padding: var(--space-5);
-  box-shadow: var(--shadow-sm);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: border-color var(--duration-fast);
-}
-
-.whoiscrm-pricing-country-card:hover {
-  border-color: var(--color-primary);
-}
-
-/* ─── Responsive Grid Styles ────────────────────────────────────────────── */
-@media (max-width: 1024px) {
-  .whoiscrm-pricing-grid { grid-template-columns: repeat(2, 1fr); }
-  .whoiscrm-pricing-countries-grid { grid-template-columns: repeat(2, 1fr); }
-  .whoiscrm-portal-stats { grid-template-columns: repeat(2, 1fr); }
+/* ─── Responsive Adjustments (Mobile & Tablet) ───────────────────────────── */
+@media (max-width: 900px) {
+  .whoiscrm-portal-grid-2 {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
-  .whoiscrm-pricing-grid { grid-template-columns: 1fr; }
-  .whoiscrm-pricing-countries-grid { grid-template-columns: 1fr; }
-  .whoiscrm-portal-stats { grid-template-columns: 1fr; }
-  .whoiscrm-portal-subs-grid { grid-template-columns: 1fr; }
-  .whoiscrm-portal-header { flex-direction: column; align-items: flex-start; gap: var(--space-3); }
+  .whoiscrm-portal-container {
+    padding: 0 16px !important;
+  }
+  .whoiscrm-portal-header {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+  .whoiscrm-portal-user-meta {
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid var(--color-border);
+  }
+  .whoiscrm-portal-stats {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .whoiscrm-portal-stat-card {
+    padding: 16px 20px !important;
+  }
+  .whoiscrm-filter-group {
+    min-width: 100%;
+  }
+  .whoiscrm-table th,
+  .whoiscrm-table td {
+    padding: 10px 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .whoiscrm-portal-container {
+    padding: 0 12px !important;
+  }
+  .whoiscrm-portal-nav {
+    padding: 4px;
+  }
+  .whoiscrm-portal-nav-item {
+    padding: 8px 14px;
+    font-size: 0.8125rem !important;
+  }
+  .whoiscrm-portal-auth-notice {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+    padding: 28px 20px !important;
+  }
 }
