@@ -15,160 +15,128 @@ if (!defined('ABSPATH')) {
     exit;
 }
 ?>
-}
 <!-- DM Sans Font Preload -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
 
 <div class="whoiscrm-auth-page">
-  <div class="whoiscrm-auth-split">
+  <div class="whoiscrm-auth-card">
 
-    <!-- ── Left: Brand Panel ─────────────────────────────── -->
-    <div class="whoiscrm-auth-panel-brand">
-      <div class="brand-grid"></div>
-      <div class="whoiscrm-auth-brand-inner">
-
-        <div class="whoiscrm-auth-logo-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5" fill="none"/>
-            <ellipse cx="12" cy="12" rx="4" ry="10" stroke="white" stroke-width="1.5" fill="none"/>
-            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="white" stroke-width="1.5" fill="none"/>
-          </svg>
-        </div>
-
-        <h2 class="whoiscrm-auth-brand-name"><?php echo esc_html(get_bloginfo('name')); ?></h2>
-        <p class="whoiscrm-auth-brand-tagline"><?php esc_html_e('Access premium WHOIS data, domain insights, and business intelligence — all in one place.', 'whois-crm'); ?></p>
-
-        <ul class="whoiscrm-auth-trust">
-          <li><?php esc_html_e('Daily updated domain records', 'whois-crm'); ?></li>
-          <li><?php esc_html_e('Instant CSV & Excel exports', 'whois-crm'); ?></li>
-          <li><?php esc_html_e('Secure & encrypted downloads', 'whois-crm'); ?></li>
-        </ul>
+    <!-- Brand Header -->
+    <div class="whoiscrm-auth-brand-header">
+      <div class="whoiscrm-auth-logo-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5" fill="none"/>
+          <ellipse cx="12" cy="12" rx="4" ry="10" stroke="white" stroke-width="1.5" fill="none"/>
+          <path d="M2 12h20" stroke="white" stroke-width="1.5"/>
+        </svg>
       </div>
+      <span class="whoiscrm-auth-brand-title"><?php echo esc_html(get_bloginfo('name')); ?></span>
     </div>
 
-    <!-- ── Right: Form Panel ──────────────────────────────── -->
-    <div class="whoiscrm-auth-panel-form">
-      <div class="whoiscrm-auth-form-inner">
+    <!-- Heading -->
+    <div class="whoiscrm-auth-heading">
+      <h1><?php esc_html_e('Welcome back', 'whois-crm'); ?></h1>
+      <p><?php esc_html_e('Sign in to access your data portal.', 'whois-crm'); ?></p>
+    </div>
 
-        <!-- Mobile logo (hidden on desktop) -->
-        <div class="whoiscrm-auth-mobile-logo">
-          <div class="whoiscrm-auth-mobile-logo-mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white">
-              <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5" fill="none"/>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="white" stroke-width="1.5" fill="none"/>
-              <path d="M2 12h20" stroke="white" stroke-width="1.5"/>
+    <!-- Message box -->
+    <div class="whoiscrm-auth-message" id="whoiscrm-login-message" role="alert" aria-live="polite"></div>
+
+    <!-- Login Form -->
+    <form id="whoiscrm-login-form" class="whoiscrm-auth-form" method="post" novalidate>
+
+      <input type="hidden" name="action" value="whoiscrm_login">
+      <input type="hidden" name="nonce" value="<?php echo esc_attr($nonce); ?>">
+      <?php if (!empty($redirect_to)) : ?>
+      <input type="hidden" name="redirect_to" value="<?php echo esc_attr($redirect_to); ?>">
+      <?php endif; ?>
+
+      <!-- Email -->
+      <div class="whoiscrm-form-group">
+        <label for="whoiscrm-login-email">
+          <?php esc_html_e('Email Address', 'whois-crm'); ?>
+          <span class="required" aria-hidden="true">*</span>
+        </label>
+        <div class="whoiscrm-input-icon-wrapper">
+          <span class="whoiscrm-input-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
             </svg>
-          </div>
-          <span class="whoiscrm-auth-mobile-site-name"><?php echo esc_html(get_bloginfo('name')); ?></span>
+          </span>
+          <input
+            type="email"
+            id="whoiscrm-login-email"
+            name="email"
+            autocomplete="email"
+            required
+            placeholder="<?php esc_attr_e('you@example.com', 'whois-crm'); ?>"
+            aria-required="true"
+          >
         </div>
-
-        <!-- Heading -->
-        <div class="whoiscrm-auth-heading">
-          <h1><?php esc_html_e('Welcome back', 'whois-crm'); ?></h1>
-          <p><?php esc_html_e('Sign in to access your data portal.', 'whois-crm'); ?></p>
-        </div>
-
-        <!-- Message box -->
-        <div class="whoiscrm-auth-message" id="whoiscrm-login-message" role="alert" aria-live="polite"></div>
-
-        <!-- Login Form -->
-        <form id="whoiscrm-login-form" class="whoiscrm-auth-form" method="post" novalidate>
-
-          <input type="hidden" name="action" value="whoiscrm_login">
-          <input type="hidden" name="nonce" value="<?php echo esc_attr($nonce); ?>">
-          <?php if (!empty($redirect_to)) : ?>
-          <input type="hidden" name="redirect_to" value="<?php echo esc_attr($redirect_to); ?>">
-          <?php endif; ?>
-
-          <!-- Email -->
-          <div class="whoiscrm-form-group">
-            <label for="whoiscrm-login-email">
-              <?php esc_html_e('Email Address', 'whois-crm'); ?>
-              <span class="required" aria-hidden="true">*</span>
-            </label>
-            <div class="whoiscrm-input-icon-wrapper">
-              <span class="whoiscrm-input-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="4" width="20" height="16" rx="2"/>
-                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-                </svg>
-              </span>
-              <input
-                type="email"
-                id="whoiscrm-login-email"
-                name="email"
-                autocomplete="email"
-                required
-                placeholder="<?php esc_attr_e('you@example.com', 'whois-crm'); ?>"
-                aria-required="true"
-              >
-            </div>
-          </div>
-
-          <!-- Password -->
-          <div class="whoiscrm-form-group">
-            <label for="whoiscrm-login-password">
-              <?php esc_html_e('Password', 'whois-crm'); ?>
-              <span class="required" aria-hidden="true">*</span>
-            </label>
-            <div class="whoiscrm-input-icon-wrapper">
-              <span class="whoiscrm-input-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="3" y="11" width="18" height="11" rx="2"/>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                </svg>
-              </span>
-              <div class="whoiscrm-password-wrapper">
-                <input
-                  type="password"
-                  id="whoiscrm-login-password"
-                  name="password"
-                  autocomplete="current-password"
-                  required
-                  placeholder="<?php esc_attr_e('Your password', 'whois-crm'); ?>"
-                  aria-required="true"
-                >
-                <button type="button" class="whoiscrm-password-toggle" aria-label="<?php esc_attr_e('Show password', 'whois-crm'); ?>" data-target="whoiscrm-login-password">
-                  <svg viewBox="0 0 24 24" class="icon-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                  <svg viewBox="0 0 24 24" class="icon-eye-off" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Remember + Forgot -->
-          <div class="whoiscrm-form-row-meta">
-            <label class="whoiscrm-checkbox-label">
-              <input type="checkbox" name="remember" value="1" id="whoiscrm-login-remember">
-              <?php esc_html_e('Remember me', 'whois-crm'); ?>
-            </label>
-            <a href="<?php echo esc_url($forgot_url); ?>" class="whoiscrm-auth-link">
-              <?php esc_html_e('Forgot password?', 'whois-crm'); ?>
-            </a>
-          </div>
-
-          <!-- Submit -->
-          <button type="submit" id="whoiscrm-login-submit" class="whoiscrm-btn-auth">
-            <span class="spinner" aria-hidden="true"></span>
-            <span class="btn-text"><?php esc_html_e('Sign In', 'whois-crm'); ?></span>
-          </button>
-
-        </form>
-
-        <!-- Footer -->
-        <div class="whoiscrm-auth-footer">
-          <?php esc_html_e("Don't have an account?", 'whois-crm'); ?>
-          <a href="<?php echo esc_url($register_url); ?>">
-            <?php esc_html_e('Create one free', 'whois-crm'); ?>
-          </a>
-        </div>
-
       </div>
-    </div><!-- .whoiscrm-auth-panel-form -->
 
-  </div><!-- .whoiscrm-auth-split -->
+      <!-- Password -->
+      <div class="whoiscrm-form-group">
+        <label for="whoiscrm-login-password">
+          <?php esc_html_e('Password', 'whois-crm'); ?>
+          <span class="required" aria-hidden="true">*</span>
+        </label>
+        <div class="whoiscrm-input-icon-wrapper">
+          <span class="whoiscrm-input-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </span>
+          <div class="whoiscrm-password-wrapper">
+            <input
+              type="password"
+              id="whoiscrm-login-password"
+              name="password"
+              autocomplete="current-password"
+              required
+              placeholder="<?php esc_attr_e('Your password', 'whois-crm'); ?>"
+              aria-required="true"
+            >
+            <button type="button" class="whoiscrm-password-toggle" aria-label="<?php esc_attr_e('Show password', 'whois-crm'); ?>" data-target="whoiscrm-login-password">
+              <svg viewBox="0 0 24 24" class="icon-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg viewBox="0 0 24 24" class="icon-eye-off" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Remember + Forgot -->
+      <div class="whoiscrm-form-row-meta">
+        <label class="whoiscrm-checkbox-label">
+          <input type="checkbox" name="remember" value="1" id="whoiscrm-login-remember">
+          <?php esc_html_e('Remember me', 'whois-crm'); ?>
+        </label>
+        <a href="<?php echo esc_url($forgot_url); ?>" class="whoiscrm-auth-link">
+          <?php esc_html_e('Forgot password?', 'whois-crm'); ?>
+        </a>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" id="whoiscrm-login-submit" class="whoiscrm-btn-auth">
+        <span class="spinner" aria-hidden="true"></span>
+        <span class="btn-text"><?php esc_html_e('Sign In', 'whois-crm'); ?></span>
+      </button>
+
+    </form>
+
+    <!-- Footer -->
+    <div class="whoiscrm-auth-footer">
+      <?php esc_html_e("Don't have an account?", 'whois-crm'); ?>
+      <a href="<?php echo esc_url($register_url); ?>">
+        <?php esc_html_e('Create one free', 'whois-crm'); ?>
+      </a>
+    </div>
+
+  </div><!-- .whoiscrm-auth-card -->
 </div><!-- .whoiscrm-auth-page -->
 
 <script>
@@ -180,7 +148,7 @@ if (!defined('ABSPATH')) {
   const submitBtn = document.getElementById('whoiscrm-login-submit');
   const ajaxUrl   = <?php echo wp_json_encode($ajax_url); ?>;
 
-  // ── Password visibility toggle ──────────────────────────────────
+  // Password visibility toggle
   document.querySelectorAll('.whoiscrm-password-toggle').forEach(function(btn) {
     btn.addEventListener('click', function() {
       const targetId = btn.getAttribute('data-target');
@@ -188,13 +156,13 @@ if (!defined('ABSPATH')) {
       if (!input) return;
       const show = input.type === 'password';
       input.type = show ? 'text' : 'password';
-      btn.querySelector('.icon-eye').style.display     = show ? 'none'  : '';
-      btn.querySelector('.icon-eye-off').style.display = show ? ''      : 'none';
+      btn.querySelector('.icon-eye').style.display     = show ? 'none' : '';
+      btn.querySelector('.icon-eye-off').style.display = show ? ''     : 'none';
       btn.setAttribute('aria-label', show ? '<?php echo esc_js(__('Hide password', 'whois-crm')); ?>' : '<?php echo esc_js(__('Show password', 'whois-crm')); ?>');
     });
   });
 
-  // ── Form submission ─────────────────────────────────────────────
+  // Form submission
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     clearMessage();
@@ -217,17 +185,8 @@ if (!defined('ABSPATH')) {
       });
   });
 
-  function setLoading(on) {
-    submitBtn.classList.toggle('is-loading', on);
-    submitBtn.disabled = on;
-  }
-  function showMessage(text, type) {
-    msgBox.className   = 'whoiscrm-auth-message is-' + type;
-    msgBox.textContent = text;
-  }
-  function clearMessage() {
-    msgBox.className   = 'whoiscrm-auth-message';
-    msgBox.textContent = '';
-  }
+  function setLoading(on) { submitBtn.classList.toggle('is-loading', on); submitBtn.disabled = on; }
+  function showMessage(t, tp) { msgBox.className = 'whoiscrm-auth-message is-' + tp; msgBox.textContent = t; }
+  function clearMessage() { msgBox.className = 'whoiscrm-auth-message'; msgBox.textContent = ''; }
 })();
 </script>
