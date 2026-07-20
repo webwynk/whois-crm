@@ -57,12 +57,31 @@ class AuthRedirects
 
     /**
      * Replace the default login URL with our custom login page.
+     *
+     * Skipped when the redirect target is /wp-admin — admin users must
+     * always be sent to WordPress's native wp-login.php, not the
+     * customer portal login page.
      */
     public function custom_login_url(string $login_url, string $redirect, bool $force_reauth): string
     {
         $page_id = (int) get_option('whoiscrm_login_page_id');
 
         if (!$page_id) {
+            return $login_url;
+        }
+
+        // If the redirect destination is wp-admin (or wp-login itself),
+        // leave WordPress's native login URL intact so admins can log in.
+        if ($redirect && (
+            strpos($redirect, 'wp-admin') !== false ||
+            strpos($redirect, 'wp-login') !== false
+        )) {
+            return $login_url;
+        }
+
+        // Also skip when the request itself is coming from wp-admin context
+        // (e.g. AJAX or direct admin-post.php calls that need re-auth).
+        if (is_admin() && !wp_doing_ajax()) {
             return $login_url;
         }
 
