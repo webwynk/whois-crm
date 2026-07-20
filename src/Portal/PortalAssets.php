@@ -22,12 +22,7 @@ class PortalAssets
      */
     public function enqueue(): void
     {
-        // Prevent loading assets on pages that do not use our shortcodes
-        if (!is_singular() || !$this->has_whoiscrm_shortcode()) {
-            return;
-        }
-
-        // Google Fonts — DM Sans
+        // Always enqueue Google Fonts & Auth CSS on frontend for navigation shortcode & portal
         wp_enqueue_style(
             'whoiscrm-fonts',
             'https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap',
@@ -35,7 +30,6 @@ class PortalAssets
             null
         );
 
-        // Design System
         wp_enqueue_style(
             'whoiscrm-design-system',
             WHOISCRM_PLUGIN_URL . 'assets/css/design-system.css',
@@ -43,13 +37,24 @@ class PortalAssets
             WHOISCRM_VERSION
         );
 
-        // Shared Components
         wp_enqueue_style(
             'whoiscrm-components',
             WHOISCRM_PLUGIN_URL . 'assets/css/components.css',
             ['whoiscrm-design-system'],
             WHOISCRM_VERSION
         );
+
+        wp_enqueue_style(
+            'whoiscrm-auth',
+            WHOISCRM_PLUGIN_URL . 'assets/css/auth.css',
+            ['whoiscrm-components'],
+            WHOISCRM_VERSION
+        );
+
+        // Prevent loading heavy portal assets on pages that do not use portal shortcodes
+        if (!is_singular() || !$this->has_whoiscrm_shortcode()) {
+            return;
+        }
 
         // Portal layout & templates styling
         wp_enqueue_style(
@@ -58,23 +63,6 @@ class PortalAssets
             ['whoiscrm-components'],
             WHOISCRM_VERSION
         );
-
-        // Auth forms styling
-        global $post;
-        if ($post && !empty($post->post_content)) {
-            if (has_shortcode($post->post_content, 'whoiscrm_login') ||
-                has_shortcode($post->post_content, 'whoiscrm_register') ||
-                has_shortcode($post->post_content, 'whoiscrm_forgot_password') ||
-                has_shortcode($post->post_content, 'whoiscrm_reset_password')) {
-
-                wp_enqueue_style(
-                    'whoiscrm-auth',
-                    WHOISCRM_PLUGIN_URL . 'assets/css/auth.css',
-                    ['whoiscrm-components'],
-                    WHOISCRM_VERSION
-                );
-            }
-        }
 
         // Portal client-side script
         wp_enqueue_script(
