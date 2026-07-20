@@ -70,18 +70,33 @@
   }
 }
 
-/* ─── Page Reset ─────────────────────────────────────────────────────────── */
+/* ─── Page Reset & Strict Font Enforcement ────────────────────────────────── */
+.whoiscrm-auth-page,
 .whoiscrm-auth-page *,
 .whoiscrm-auth-page *::before,
-.whoiscrm-auth-page *::after {
+.whoiscrm-auth-page *::after,
+.whoiscrm-auth-page input,
+.whoiscrm-auth-page button,
+.whoiscrm-auth-page select,
+.whoiscrm-auth-page textarea,
+.whoiscrm-auth-page h1,
+.whoiscrm-auth-page h2,
+.whoiscrm-auth-page h3,
+.whoiscrm-auth-page h4,
+.whoiscrm-auth-page p,
+.whoiscrm-auth-page label,
+.whoiscrm-auth-page span,
+.whoiscrm-auth-page a,
+.whoiscrm-auth-page div,
+.whoiscrm-auth-page li {
   box-sizing: border-box;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
 }
 
 .whoiscrm-auth-page {
   min-height: 100vh;
   display: flex;
   align-items: stretch;
-  font-family: var(--font-family);
   background: var(--color-surface);
 }
 
