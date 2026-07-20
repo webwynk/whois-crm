@@ -528,3 +528,225 @@
     gap: 0;
   }
 }
+
+/* ─── Navigation Menu Shortcode [whoiscrm_nav_menu] ─────────────────────── */
+.whoiscrm-nav-guest-wrap {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+.whoiscrm-nav-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 9px 22px !important;
+  border-radius: 10px !important;
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  transition: all 200ms cubic-bezier(0.4,0,0.2,1) !important;
+  line-height: 1.2 !important;
+  cursor: pointer !important;
+}
+
+.whoiscrm-nav-btn--login {
+  background: linear-gradient(135deg, #FF6621 0%, #E5571A 100%) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(255,102,33,0.25) !important;
+}
+.whoiscrm-nav-btn--login:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(255,102,33,0.40) !important;
+  color: #FFFFFF !important;
+}
+
+.whoiscrm-nav-btn--signup {
+  background: transparent !important;
+  color: #FF6621 !important;
+  border: 1.5px solid #FF6621 !important;
+}
+.whoiscrm-nav-btn--signup:hover {
+  background: rgba(255,102,33,0.08) !important;
+  transform: translateY(-2px) !important;
+  color: #FF6621 !important;
+}
+
+/* User Logged-in State */
+.whoiscrm-nav-user-wrap {
+  position: relative !important;
+  display: inline-block !important;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+.whoiscrm-user-chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 5px 14px 5px 6px !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid #E8E8EF !important;
+  border-radius: 9999px !important;
+  cursor: pointer !important;
+  transition: all 200ms ease-out !important;
+  box-shadow: 0 2px 6px rgba(10,10,11,0.04) !important;
+  color: #0A0A0B !important;
+}
+
+.whoiscrm-user-chip:hover,
+.whoiscrm-nav-user-wrap.is-open .whoiscrm-user-chip {
+  border-color: #FF6621 !important;
+  box-shadow: 0 6px 16px rgba(10,10,11,0.08) !important;
+}
+
+.whoiscrm-user-avatar {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 1.5px solid #FF6621 !important;
+}
+
+.whoiscrm-user-name {
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  color: #0A0A0B !important;
+  white-space: nowrap !important;
+}
+
+.whoiscrm-user-chevron {
+  width: 14px !important;
+  height: 14px !important;
+  stroke: #5C5C6B !important;
+  fill: none !important;
+  stroke-width: 2.5 !important;
+  transition: transform 200ms ease-out !important;
+}
+.whoiscrm-nav-user-wrap.is-open .whoiscrm-user-chevron {
+  transform: rotate(180deg) !important;
+}
+
+/* Floating Dropdown Card */
+.whoiscrm-user-dropdown {
+  position: absolute !important;
+  top: calc(100% + 10px) !important;
+  right: 0 !important;
+  width: 260px !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid #E8E8EF !important;
+  border-radius: 20px !important;
+  padding: 16px !important;
+  box-shadow: 0 16px 40px rgba(10,10,11,0.12) !important;
+  z-index: 99999 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transform: translateY(12px) scale(0.96) !important;
+  transition: opacity 220ms ease-out, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1), visibility 220ms !important;
+  pointer-events: none !important;
+}
+
+.whoiscrm-nav-user-wrap.is-open .whoiscrm-user-dropdown {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) scale(1) !important;
+  pointer-events: auto !important;
+}
+
+.whoiscrm-user-dropdown-header {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 4px 4px 12px 4px !important;
+}
+
+.whoiscrm-user-dropdown-avatar {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 2px solid #FF6621 !important;
+  flex-shrink: 0 !important;
+}
+
+.whoiscrm-user-dropdown-name {
+  font-size: 0.9375rem !important;
+  font-weight: 800 !important;
+  color: #0A0A0B !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.whoiscrm-user-dropdown-email {
+  font-size: 0.75rem !important;
+  color: #9898A8 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  margin-top: 2px !important;
+}
+
+.whoiscrm-user-dropdown-divider {
+  height: 1px !important;
+  background: #E8E8EF !important;
+  margin: 8px -16px !important;
+}
+
+.whoiscrm-user-dropdown-menu {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  padding-top: 4px !important;
+}
+
+.whoiscrm-user-dropdown-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 10px 12px !important;
+  border-radius: 10px !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  color: #5C5C6B !important;
+  text-decoration: none !important;
+  transition: all 150ms ease-out !important;
+}
+
+.whoiscrm-user-dropdown-item svg {
+  width: 18px !important;
+  height: 18px !important;
+  stroke: #9898A8 !important;
+  fill: none !important;
+  stroke-width: 2 !important;
+  transition: stroke 150ms ease-out !important;
+  flex-shrink: 0 !important;
+}
+
+.whoiscrm-user-dropdown-item:hover {
+  background: rgba(255,102,33,0.08) !important;
+  color: #FF6621 !important;
+}
+.whoiscrm-user-dropdown-item:hover svg {
+  stroke: #FF6621 !important;
+}
+
+.whoiscrm-user-dropdown-item--logout:hover {
+  background: rgba(229,53,53,0.08) !important;
+  color: #E53535 !important;
+}
+.whoiscrm-user-dropdown-item--logout:hover svg {
+  stroke: #E53535 !important;
+}
+
+@media (max-width: 480px) {
+  .whoiscrm-user-name {
+    display: none !important;
+  }
+  .whoiscrm-user-chip {
+    padding: 4px !important;
+  }
+}
+

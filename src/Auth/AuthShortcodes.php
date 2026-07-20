@@ -25,6 +25,8 @@ class AuthShortcodes
         add_shortcode('whoiscrm_register',        [$this, 'render_register']);
         add_shortcode('whoiscrm_forgot_password', [$this, 'render_forgot_password']);
         add_shortcode('whoiscrm_reset_password',  [$this, 'render_reset_password']);
+        add_shortcode('whoiscrm_nav_menu',        [$this, 'render_nav_menu']);
+        add_shortcode('whoiscrm_user_menu',       [$this, 'render_nav_menu']);
     }
 
     /**
@@ -115,6 +117,50 @@ class AuthShortcodes
             'login'     => $login,
             'ajax_url'  => admin_url('admin-ajax.php'),
         ]);
+        return ob_get_clean() ?: '';
+    }
+
+    /**
+     * Render the navigation menu shortcode [whoiscrm_nav_menu].
+     *
+     * Shows Login / Sign Up buttons when logged out.
+     * Shows User Avatar Chip & Animated Dropdown Menu when logged in.
+     */
+    public function render_nav_menu(array $atts = []): string
+    {
+        ob_start();
+
+        if (is_user_logged_in()) {
+            $user_id = get_current_user_id();
+            $wp_user = get_userdata($user_id);
+            $customer = (new \WhoisCRM\Database\Models\Customer())->find_by_user_id($user_id);
+
+            $portal_page  = get_option('whoiscrm_portal_page_id');
+            $pricing_page = get_option('whoiscrm_pricing_page_id');
+
+            $portal_url   = $portal_page ? get_permalink((int) $portal_page) : home_url('/portal/');
+            $pricing_url  = $pricing_page ? get_permalink((int) $pricing_page) : home_url('/pricing-page/');
+
+            $this->render_template('auth/nav-menu-user', [
+                'wp_user'     => $wp_user,
+                'customer'    => $customer,
+                'portal_url'  => $portal_url,
+                'pricing_url' => $pricing_url,
+                'logout_url'  => wp_logout_url(home_url('/')),
+            ]);
+        } else {
+            $login_page    = get_option('whoiscrm_login_page_id');
+            $register_page = get_option('whoiscrm_register_page_id');
+
+            $login_url    = $login_page ? get_permalink((int) $login_page) : wp_login_url();
+            $register_url = $register_page ? get_permalink((int) $register_page) : wp_registration_url();
+
+            $this->render_template('auth/nav-menu-guest', [
+                'login_url'    => $login_url,
+                'register_url' => $register_url,
+            ]);
+        }
+
         return ob_get_clean() ?: '';
     }
 
