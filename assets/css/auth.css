@@ -453,9 +453,18 @@
   margin-top: var(--space-2);
   height: 3px;
   border-radius: var(--radius-full);
-  background: var(--color-border);
+  background: transparent;
   overflow: hidden;
+  transition: background var(--duration-fast);
 }
+.whoiscrm-password-strength.is-active,
+.whoiscrm-password-strength:has(.strength-1),
+.whoiscrm-password-strength:has(.strength-2),
+.whoiscrm-password-strength:has(.strength-3),
+.whoiscrm-password-strength:has(.strength-4) {
+  background: var(--color-border);
+}
+
 .whoiscrm-password-strength__bar {
   height: 100%;
   border-radius: var(--radius-full);
@@ -473,7 +482,9 @@
   color: var(--color-text-muted) !important;
   margin-top: var(--space-1);
   font-weight: 500 !important;
-  min-height: 1em;
+}
+.whoiscrm-password-strength__label:empty {
+  display: none;
 }
 
 /* ─── Back link ──────────────────────────────────────────────────────────── */
@@ -485,7 +496,7 @@
   color: var(--color-text-muted) !important;
   text-decoration: none;
   font-weight: 500 !important;
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-4);
   transition: color var(--duration-fast);
 }
 .whoiscrm-auth-back:hover { color: var(--color-primary) !important; }
@@ -494,11 +505,18 @@
   stroke: currentColor; fill: none; stroke-width: 2;
 }
 
-/* ─── Responsive ─────────────────────────────────────────────────────────── */
-@media (max-width: 480px) {
+/* ─── Responsive — Mobile & Tablet ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .whoiscrm-auth-page {
+    min-height: auto !important;
+    align-items: flex-start !important;
+    padding: 16px 12px 32px !important;
+  }
   .whoiscrm-auth-card {
-    padding: 32px 24px !important;
+    padding: 28px 20px !important;
     border-radius: 16px !important;
+    margin-top: 8px !important;
+    box-shadow: 0 10px 25px rgba(10,10,11,0.06) !important;
   }
   .whoiscrm-auth-form .form-row-2 {
     grid-template-columns: 1fr;

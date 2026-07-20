@@ -19,14 +19,6 @@ if (!defined('ABSPATH')) { exit; }
 <div class="whoiscrm-auth-page">
   <div class="whoiscrm-auth-card">
 
-    <!-- Back link -->
-    <a href="<?php echo esc_url($login_url); ?>" class="whoiscrm-auth-back">
-      <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="15 18 9 12 15 6"/>
-      </svg>
-      <?php esc_html_e('Back to sign in', 'whois-crm'); ?>
-    </a>
-
     <!-- Heading -->
     <div class="whoiscrm-auth-heading">
       <h1><?php esc_html_e('Forgot password?', 'whois-crm'); ?></h1>
