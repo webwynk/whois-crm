@@ -569,7 +569,7 @@
   justify-content: center !important;
 }
 
-/* ─── Public Pricing Layout ──────────────────────────────────────────────── */
+/* ─── Public Pricing Layout — Modern SaaS Redesign ────────────────────────── */
 .whoiscrm-pricing-wrapper {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   background: var(--color-surface);
@@ -578,23 +578,39 @@
   width: 100%;
 }
 
+.whoiscrm-pricing-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 102, 33, 0.09) !important;
+  border: 1px solid rgba(255, 102, 33, 0.20) !important;
+  color: var(--color-primary) !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
 .whoiscrm-pricing-header {
   text-align: center;
-  max-width: 640px;
+  max-width: 680px;
   margin: 0 auto 32px auto;
 }
 
 .whoiscrm-pricing-title {
-  font-size: clamp(1.75rem, 3.5vw, 2.375rem) !important;
-  font-weight: 700 !important;
+  font-size: clamp(2rem, 4vw, 2.75rem) !important;
+  font-weight: 800 !important;
   color: #0A0A0B !important;
   margin-bottom: 12px !important;
-  letter-spacing: -0.025em;
-  line-height: 1.2;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
 }
 
 .whoiscrm-pricing-subtitle {
-  font-size: 1rem !important;
+  font-size: 1.0625rem !important;
   color: #5C5C6B !important;
   margin: 0 !important;
   line-height: 1.5;
@@ -606,7 +622,7 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 40px;
+  margin-bottom: 44px;
 }
 
 .whoiscrm-pricing-toggle-label {
@@ -657,21 +673,31 @@
   transform: translateX(20px);
 }
 
-/* Pricing Grid */
-.whoiscrm-pricing-grid {
+/* Pricing Grid — 3 Top Core Cards */
+.whoiscrm-pricing-grid-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   align-items: stretch;
-  margin-bottom: 48px;
+  margin-bottom: 24px;
+}
+
+/* Pricing Grid — Centered 2-Card Lower Row */
+.whoiscrm-pricing-grid-2-centered {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+  max-width: 820px;
+  margin: 0 auto 56px auto;
+  gap: 24px;
+  align-items: stretch;
 }
 
 .whoiscrm-pricing-card {
   background: #fff !important;
-  border: 2px solid #E8E8EF !important;
+  border: 1.5px solid #E8E8EF !important;
   border-radius: 24px !important;
   padding: 32px !important;
-  box-shadow: 0 4px 6px rgba(10,10,11,0.04) !important;
+  box-shadow: 0 4px 12px rgba(10,10,11,0.03) !important;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -681,60 +707,81 @@
 
 .whoiscrm-pricing-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 25px rgba(10,10,11,0.10) !important;
+  box-shadow: 0 20px 30px rgba(10,10,11,0.08) !important;
   border-color: #FF6621 !important;
 }
 
 .whoiscrm-pricing-card--featured {
-  border-color: #FF6621 !important;
+  border: 2px solid #FF6621 !important;
   background: linear-gradient(180deg, #FFFDFB 0%, #FFFFFF 100%) !important;
+  box-shadow: 0 12px 30px rgba(255,102,33,0.12) !important;
 }
 
 .whoiscrm-pricing-card--featured::before {
-  content: 'POPULAR';
+  content: '★ MOST POPULAR';
   position: absolute;
-  top: -12px;
+  top: -13px;
   left: 50%;
   transform: translateX(-50%);
-  background: #FF6621;
+  background: linear-gradient(135deg, #FF6621 0%, #E5571A 100%);
   color: #fff;
   font-size: 0.6875rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.08em;
-  padding: 4px 12px;
+  padding: 4px 14px;
   border-radius: 9999px;
-  box-shadow: 0 2px 6px rgba(255,102,33,0.30);
+  box-shadow: 0 3px 10px rgba(255,102,33,0.35);
+}
+
+.whoiscrm-pricing-icon-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(255,102,33,0.09);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FF6621;
+  margin-bottom: 18px;
+}
+.whoiscrm-pricing-icon-badge svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
 }
 
 .whoiscrm-pricing-card-header {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .whoiscrm-pricing-card-name {
   font-size: 1.25rem !important;
   font-weight: 700 !important;
   color: #0A0A0B !important;
-  margin: 0 0 8px 0 !important;
+  margin: 0 0 6px 0 !important;
+  letter-spacing: -0.01em;
 }
 
 .whoiscrm-pricing-card-desc {
   font-size: 0.875rem !important;
   color: #5C5C6B !important;
-  line-height: 1.4;
+  line-height: 1.45;
   margin: 0 !important;
-  min-height: 42px;
+  min-height: 40px;
 }
 
 .whoiscrm-pricing-card-price-wrap {
-  margin: 20px 0;
+  margin: 20px 0 24px 0;
   display: flex;
   align-items: baseline;
-  gap: 2px;
+  gap: 4px;
 }
 
 .whoiscrm-pricing-card-price {
-  font-size: 2.25rem !important;
-  font-weight: 700 !important;
+  font-size: 2.5rem !important;
+  font-weight: 800 !important;
   color: #0A0A0B !important;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -760,29 +807,44 @@
   font-size: 0.875rem !important;
   color: #5C5C6B !important;
   display: flex;
-  align-items: flex-start;
-  gap: 8px;
+  align-items: center;
+  gap: 10px;
+  line-height: 1.35;
 }
 
-.whoiscrm-pricing-card-features li::before {
-  content: '✓';
-  color: #1DB954;
-  font-weight: 700;
+.whoiscrm-pricing-feature-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(29,185,84,0.12);
+  color: #14803C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.whoiscrm-pricing-feature-check svg {
+  width: 11px;
+  height: 11px;
+  stroke: #14803C;
+  stroke-width: 3;
 }
 
 /* Country Plans Grid */
 .whoiscrm-pricing-countries-title {
   text-align: center;
-  font-size: 1.5rem !important;
-  font-weight: 700 !important;
+  font-size: 1.625rem !important;
+  font-weight: 800 !important;
   color: #0A0A0B !important;
-  margin-bottom: 24px !important;
+  margin-bottom: 8px !important;
+  letter-spacing: -0.02em;
 }
 
 .whoiscrm-pricing-countries-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  margin-bottom: 56px;
 }
 
 .whoiscrm-pricing-country-card {
@@ -790,32 +852,82 @@
   border: 1px solid #E8E8EF !important;
   border-radius: 16px !important;
   padding: 20px !important;
-  box-shadow: 0 1px 3px rgba(10,10,11,0.04) !important;
+  box-shadow: 0 2px 6px rgba(10,10,11,0.03) !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: border-color 150ms !important;
+  transition: all 180ms ease-out !important;
 }
 
 .whoiscrm-pricing-country-card:hover {
   border-color: #FF6621 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(10,10,11,0.06) !important;
+}
+
+.whoiscrm-country-flag-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.whoiscrm-country-flag {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* ─── Trust & Security Banner ────────────────────────────────────────────── */
+.whoiscrm-pricing-trust-banner {
+  background: #fff !important;
+  border: 1px solid #E8E8EF !important;
+  border-radius: 20px !important;
+  padding: 24px 32px !important;
+  box-shadow: 0 2px 8px rgba(10,10,11,0.03) !important;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  align-items: center;
+  text-align: center;
+}
+
+.whoiscrm-trust-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.whoiscrm-trust-item svg {
+  width: 22px;
+  height: 22px;
+  stroke: #FF6621;
+  fill: none;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+.whoiscrm-trust-text {
+  font-size: 0.8125rem !important;
+  font-weight: 700 !important;
+  color: #0A0A0B !important;
+  text-align: left;
+  line-height: 1.25;
 }
 
 /* ─── Responsive Adjustments (Mobile & Tablet) ───────────────────────────── */
 @media (max-width: 1024px) {
-  .whoiscrm-pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .whoiscrm-pricing-grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .whoiscrm-pricing-grid-2-centered { grid-template-columns: 1fr; max-width: 100%; }
   .whoiscrm-pricing-countries-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 900px) {
-  .whoiscrm-portal-grid-2 {
-    grid-template-columns: 1fr;
-  }
+  .whoiscrm-pricing-trust-banner { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 }
 
 @media (max-width: 768px) {
   .whoiscrm-portal-container {
     padding: 0 16px !important;
   }
+  .whoiscrm-pricing-grid-3 { grid-template-columns: 1fr; }
+  .whoiscrm-pricing-countries-grid { grid-template-columns: 1fr; }
+  .whoiscrm-pricing-trust-banner { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+  .whoiscrm-trust-text { text-align: center; }
   .whoiscrm-portal-header {
     padding: 14px 16px;
     gap: 12px;
@@ -846,6 +958,13 @@
   .whoiscrm-portal-container {
     padding: 0 12px !important;
   }
+  .whoiscrm-pricing-card {
+    padding: 24px 20px !important;
+    border-radius: 18px !important;
+  }
+  .whoiscrm-pricing-country-card {
+    padding: 16px !important;
+  }
   .whoiscrm-portal-nav {
     padding: 4px;
   }
@@ -860,3 +979,4 @@
     padding: 28px 20px !important;
   }
 }
+
