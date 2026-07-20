@@ -97,6 +97,10 @@ class StripeGateway
      */
     public function update_product(string $stripe_product_id, object $package)
     {
+        if (!$this->is_configured()) {
+            return new \WP_Error('stripe_not_configured', __('Stripe is not configured.', 'whois-crm'));
+        }
+
         try {
             \Stripe\Product::update($stripe_product_id, [
                 'name'        => $package->name,
@@ -104,7 +108,7 @@ class StripeGateway
             ]);
 
             return true;
-        } catch (\Stripe\Exception\ApiErrorException $e) {
+        } catch (\Throwable $e) {
             return new \WP_Error('stripe_error', $e->getMessage());
         }
     }
@@ -127,6 +131,10 @@ class StripeGateway
         string $billing_cycle,
         int $pricing_id
     ) {
+        if (!$this->is_configured()) {
+            return new \WP_Error('stripe_not_configured', __('Stripe is not configured.', 'whois-crm'));
+        }
+
         $interval = ($billing_cycle === 'annually') ? 'year' : 'month';
 
         try {
@@ -144,7 +152,7 @@ class StripeGateway
             ]);
 
             return $stripe_price->id;
-        } catch (\Stripe\Exception\ApiErrorException $e) {
+        } catch (\Throwable $e) {
             return new \WP_Error('stripe_error', $e->getMessage());
         }
     }
@@ -155,9 +163,13 @@ class StripeGateway
      */
     public function deactivate_price(string $stripe_price_id): void
     {
+        if (!$this->is_configured() || empty($stripe_price_id)) {
+            return;
+        }
+
         try {
             \Stripe\Price::update($stripe_price_id, ['active' => false]);
-        } catch (\Stripe\Exception\ApiErrorException $e) {
+        } catch (\Throwable $e) {
             // Log and continue — deactivation failure is non-fatal.
             error_log('[WHOISCRM Stripe] Failed to deactivate price ' . $stripe_price_id . ': ' . $e->getMessage());
         }

@@ -122,6 +122,12 @@ class Package extends BaseModel
                     'currency'        => $row->currency,
                     'stripe_price_id' => $row->stripe_price_id,
                 ];
+
+                if ($row->billing_cycle === 'monthly') {
+                    $packages[$pkg_id]->monthly_price = (float) $row->price;
+                } elseif ($row->billing_cycle === 'annually') {
+                    $packages[$pkg_id]->annual_price = (float) $row->price;
+                }
             }
         }
 

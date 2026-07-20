@@ -240,22 +240,22 @@ $annual  = $pricing_by_cycle['annually'] ?? null;
         <?php echo $is_edit ? esc_html__('Update Package', 'whois-crm') : esc_html__('Create Package', 'whois-crm'); ?>
       </button>
 
-      <?php if ($is_edit) : ?>
-      <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="margin-top:var(--space-3);">
-        <?php wp_nonce_field('whoiscrm_package_delete'); ?>
-        <input type="hidden" name="action" value="whoiscrm_delete_package">
-        <input type="hidden" name="package_id" value="<?php echo (int) $package_id; ?>">
-        <button type="submit" class="whoiscrm-btn whoiscrm-btn--ghost whoiscrm-btn--sm" style="color:var(--color-danger); width:100%;"
-          data-confirm="<?php esc_attr_e('Delete this package? Active subscriptions will be unaffected but new signups will stop.', 'whois-crm'); ?>">
-          <?php esc_html_e('Delete Package', 'whois-crm'); ?>
-        </button>
-      </form>
-      <?php endif; ?>
-
     </div><!-- /right column -->
 
   </div><!-- /grid -->
 </form>
+
+<?php if ($is_edit) : ?>
+<form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="margin-top:var(--space-4); max-width: 320px;">
+  <?php wp_nonce_field('whoiscrm_package_delete'); ?>
+  <input type="hidden" name="action" value="whoiscrm_delete_package">
+  <input type="hidden" name="package_id" value="<?php echo (int) $package_id; ?>">
+  <button type="submit" class="whoiscrm-btn whoiscrm-btn--ghost whoiscrm-btn--sm" style="color:var(--color-danger); width:100%;"
+    data-confirm="<?php esc_attr_e('Delete this package? Active subscriptions will be unaffected but new signups will stop.', 'whois-crm'); ?>">
+    <?php esc_html_e('Delete Package', 'whois-crm'); ?>
+  </button>
+</form>
+<?php endif; ?>
 
 <script>
 (function() {

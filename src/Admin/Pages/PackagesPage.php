@@ -78,10 +78,14 @@ class PackagesPage extends BasePage
                 wp_die(__('Package not found.', 'whois-crm'));
             }
 
-            // Decode JSON fields for the form
-            $package->countries_arr = json_decode($package->countries ?? '[]', true) ?: [];
-            $package->tlds_str      = implode(', ', json_decode($package->tlds ?? '[]', true) ?: []);
-            $package->features_arr  = json_decode($package->features ?? '[]', true) ?: [''];
+            // Safely prepare arrays/strings for the edit form
+            $countries_raw = is_array($package->countries) ? $package->countries : (json_decode((string)($package->countries ?? '[]'), true) ?: []);
+            $tlds_raw      = is_array($package->tlds) ? $package->tlds : (json_decode((string)($package->tlds ?? '[]'), true) ?: []);
+            $features_raw  = is_array($package->features) ? $package->features : (json_decode((string)($package->features ?? '[]'), true) ?: []);
+
+            $package->countries_arr = is_array($countries_raw) ? $countries_raw : [];
+            $package->tlds_str      = is_array($tlds_raw) ? implode(', ', $tlds_raw) : '';
+            $package->features_arr  = !empty($features_raw) && is_array($features_raw) ? $features_raw : [''];
         }
 
         // Index pricings by billing cycle for easy template access
