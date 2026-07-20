@@ -248,20 +248,41 @@ class PortalShortcodes
      */
     private function get_login_redirect_notice(): string
     {
-        $login_page = get_option('whoiscrm_login_page_id');
-        $login_url  = $login_page ? get_permalink($login_page) : wp_login_url();
-        $redirect   = add_query_arg('redirect_to', urlencode(get_permalink()), $login_url);
+        $login_page    = get_option('whoiscrm_login_page_id');
+        $register_page = get_option('whoiscrm_register_page_id');
+
+        $login_url    = $login_page ? get_permalink($login_page) : wp_login_url();
+        $register_url = $register_page ? get_permalink($register_page) : wp_registration_url();
+        $redirect     = add_query_arg('redirect_to', urlencode(get_permalink()), $login_url);
 
         return sprintf(
-            '<div class="whoiscrm-portal-auth-notice">
+            '<!-- DM Sans Font Preload -->
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+            <div class="whoiscrm-portal-auth-notice">
+                <div class="whoiscrm-portal-auth-icon-badge" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
                 <h3>%1$s</h3>
                 <p>%2$s</p>
-                <a href="%3$s" class="whoiscrm-portal-btn whoiscrm-portal-btn--primary">%4$s</a>
+                <div class="whoiscrm-portal-auth-actions">
+                    <a href="%3$s" class="whoiscrm-portal-btn-auth-primary">
+                        <span>%4$s</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                    <a href="%5$s" class="whoiscrm-portal-btn-auth-secondary">%6$s</a>
+                </div>
             </div>',
-            esc_html__('Access Denied', 'whois-crm'),
-            esc_html__('You must be signed in to view the customer portal.', 'whois-crm'),
+            esc_html__('Authentication Required', 'whois-crm'),
+            esc_html__('Please sign in to access your WHOIS data portal and downloads.', 'whois-crm'),
             esc_url($redirect),
-            esc_html__('Sign In', 'whois-crm')
+            esc_html__('Sign In to Portal', 'whois-crm'),
+            esc_url($register_url),
+            esc_html__('Create an Account', 'whois-crm')
         );
     }
 }
