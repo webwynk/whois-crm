@@ -411,13 +411,13 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
 
+      /* ── Build FormData BEFORE hiding the form ─────────────── */
+      const formData = new FormData(uploadForm);
+
       /* ── Switch UI to progress view ────────────────────────── */
       uploadForm.style.display = 'none';
       progressOverlay.style.display = 'block';
       resetProgressUI();
-
-      /* ── Build FormData from the form ──────────────────────── */
-      const formData = new FormData(uploadForm);
 
       /* ── XMLHttpRequest (supports upload.onprogress) ───────── */
       const xhr = new XMLHttpRequest();
@@ -454,7 +454,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
           }
         } catch (parseErr) {
-          /* Non-JSON response (fallback redirect) */
+          /* Non-JSON response — server returned HTML error page */
+          showError('<?php echo esc_js(__('Server returned an unexpected response. Please try again.', 'whois-crm')); ?>');
+          return;
         }
 
         showSuccess(uploadedCount, skippedCount, redirectUrl);
@@ -495,10 +497,21 @@ document.addEventListener('DOMContentLoaded', function() {
   /* ── Helper: show success state ──────────────────────────────── */
   function showSuccess(uploadedCount, skippedCount, redirectUrl) {
     progressState.style.display = 'none';
-    successState.style.display  = 'block';
+
+    if (uploadedCount < 1) {
+      /* All files were rejected — show as error, not success */
+      let msg = '<?php echo esc_js(__('No files were saved.', 'whois-crm')); ?>';
+      if (skippedCount > 0) {
+        msg += ' ' + skippedCount + ' <?php echo esc_js(__('file(s) skipped due to validation errors.', 'whois-crm')); ?>';
+      }
+      showError(msg);
+      return;
+    }
+
+    successState.style.display = 'block';
     progressCard.classList.add('whoiscrm-upload-progress-card--success');
 
-    let detail = uploadedCount + ' <?php echo esc_js(__('file(s) uploaded', 'whois-crm')); ?>';
+    let detail = uploadedCount + ' <?php echo esc_js(__('file(s) uploaded successfully', 'whois-crm')); ?>';
     if (skippedCount > 0) {
       detail += ', ' + skippedCount + ' <?php echo esc_js(__('skipped', 'whois-crm')); ?>';
     }
