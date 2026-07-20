@@ -124,6 +124,16 @@ $downloads_url = add_query_arg('tab', 'downloads', $portal_url);
   text-align: left !important;
 }
 
+.whoiscrm-user-dropdown::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -15px !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 15px !important;
+  background: transparent !important;
+}
+
 .whoiscrm-nav-user-wrap.is-open .whoiscrm-user-dropdown {
   opacity: 1 !important;
   visibility: visible !important;
@@ -330,15 +340,10 @@ $downloads_url = add_query_arg('tab', 'downloads', $portal_url);
         }
       }
 
-      wrap.addEventListener('mouseenter', function() {
-        if (window.innerWidth >= 768) openMenu();
-      });
-      wrap.addEventListener('mouseleave', function() {
-        if (window.innerWidth >= 768) closeMenu();
-      });
-
+      // Toggle menu on click (Desktop & Mobile)
       trigger.addEventListener('click', toggleMenu);
 
+      // Close dropdown on outside click
       document.addEventListener('click', function(e) {
         if (!wrap.contains(e.target)) closeMenu();
       });

@@ -284,7 +284,6 @@ $forgot_url  = $forgot_url ?? wp_lostpassword_url();
       <span class="whoiscrm-guest-avatar-icon">
         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </span>
-      <span class="whoiscrm-guest-chip-text"><?php esc_html_e('Account', 'whois-crm'); ?></span>
       <svg class="whoiscrm-guest-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
     </button>
 
