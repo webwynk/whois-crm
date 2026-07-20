@@ -151,13 +151,19 @@ class AuthShortcodes
         } else {
             $login_page    = get_option('whoiscrm_login_page_id');
             $register_page = get_option('whoiscrm_register_page_id');
+            $pricing_page  = get_option('whoiscrm_pricing_page_id');
+            $forgot_page   = get_option('whoiscrm_forgot_password_page_id');
 
             $login_url    = $login_page ? get_permalink((int) $login_page) : wp_login_url();
             $register_url = $register_page ? get_permalink((int) $register_page) : wp_registration_url();
+            $pricing_url  = $pricing_page ? get_permalink((int) $pricing_page) : home_url('/pricing-page/');
+            $forgot_url   = $forgot_page ? get_permalink((int) $forgot_page) : wp_lostpassword_url();
 
             $this->render_template('auth/nav-menu-guest', [
                 'login_url'    => $login_url,
                 'register_url' => $register_url,
+                'pricing_url'  => $pricing_url,
+                'forgot_url'   => $forgot_url,
             ]);
         }
 

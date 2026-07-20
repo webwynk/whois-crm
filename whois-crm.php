@@ -3,7 +3,7 @@
  * Plugin Name:       WHOIS CRM
  * Plugin URI:        https://yoursite.com/whois-crm
  * Description:       Subscription-based WHOIS data distribution platform with admin dashboard, customer portal, and Stripe payments.
- * Version:           1.5.2
+ * Version:           1.5.3
  * Requires at least: 6.4
  * Requires PHP:      8.1
  * Author:            WHOIS CRM
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 
 // ─── Plugin Constants ─────────────────────────────────────────────────────────
-define('WHOISCRM_VERSION', '1.5.2');
+define('WHOISCRM_VERSION', '1.5.3');
 define('WHOISCRM_DB_VERSION', '1.1.1');
 define('WHOISCRM_PLUGIN_FILE', __FILE__);
 define('WHOISCRM_PLUGIN_DIR', plugin_dir_path(__FILE__));
