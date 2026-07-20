@@ -245,27 +245,41 @@ $country_flags = [
         <?php foreach ($country_plans as $pkg) :
           $slug = $pkg->slug ?? '';
           $flag = $country_flags[$slug] ?? '🌐';
-          $price_label = isset($pkg->monthly_price->price) ? '$' . number_format((float)$pkg->monthly_price->price, 0) . '/mo' : '—';
+          $price_val = isset($pkg->monthly_price->price) ? '$' . number_format((float)$pkg->monthly_price->price, 0) : '$0';
           $tlds_arr = !empty($pkg->tlds) ? (is_array($pkg->tlds) ? $pkg->tlds : json_decode((string)$pkg->tlds, true)) : [];
           $pricing_id_country = isset($pkg->monthly_price->id) ? (int)$pkg->monthly_price->id : 0;
           ?>
-          <div class="whoiscrm-pricing-country-card">
+          <div class="whoiscrm-pricing-country-card-modern">
             <div>
-              <div class="whoiscrm-country-flag-title">
-                <span class="whoiscrm-country-flag"><?php echo esc_html($flag); ?></span>
-                <h4 style="margin: 0; font-size: 1.0625rem; font-weight: 700; color: #0A0A0B;">
-                  <?php echo esc_html($pkg->name ?? ''); ?>
-                </h4>
-              </div>
-              <?php if (!empty($tlds_arr) && is_array($tlds_arr)) : ?>
-                <span style="font-size: 0.75rem; color: #9898A8; margin-top: 4px; display: block;">
-                  <?php echo esc_html(implode(', ', $tlds_arr)); ?>
+              <div class="whoiscrm-country-card-top">
+                <div class="whoiscrm-country-flag-badge">
+                  <?php echo esc_html($flag); ?>
+                </div>
+                <span class="whoiscrm-badge whoiscrm-badge--success" style="font-size:0.6875rem;">
+                  ⚡ <?php esc_html_e('Daily Feed', 'whois-crm'); ?>
                 </span>
+              </div>
+
+              <h4 class="whoiscrm-country-card-title">
+                <?php echo esc_html($pkg->name ?? ''); ?>
+              </h4>
+              <p style="font-size: 0.8125rem; color: #5C5C6B; margin: 0 0 12px 0; line-height: 1.4;">
+                <?php echo esc_html($pkg->description ?: sprintf(__('Daily WHOIS data feed for %s registry domains.', 'whois-crm'), $pkg->name)); ?>
+              </p>
+
+              <?php if (!empty($tlds_arr) && is_array($tlds_arr)) : ?>
+                <div class="whoiscrm-tld-pills">
+                  <?php foreach ($tlds_arr as $tld) : ?>
+                    <span class="whoiscrm-tld-pill"><?php echo esc_html($tld); ?></span>
+                  <?php endforeach; ?>
+                </div>
               <?php endif; ?>
             </div>
-            <div style="text-align: right;">
-              <div style="font-weight: 800; color: #FF6621; font-size: 1.125rem; margin-bottom: 6px;">
-                <?php echo esc_html($price_label); ?>
+
+            <div class="whoiscrm-country-card-footer">
+              <div class="whoiscrm-country-card-price">
+                <span class="price-val"><?php echo esc_html($price_val); ?></span>
+                <span class="price-cycle">/month</span>
               </div>
               <button type="button" class="whoiscrm-btn whoiscrm-btn--primary whoiscrm-btn--sm js-subscribe-btn" 
                       data-pricing-id="<?php echo $pricing_id_country; ?>" 

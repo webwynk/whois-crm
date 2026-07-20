@@ -572,10 +572,15 @@
 /* ─── Public Pricing Layout — Modern SaaS Redesign ────────────────────────── */
 .whoiscrm-pricing-wrapper {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
-  background: var(--color-surface);
-  padding: 40px 0 60px 0;
-  box-sizing: border-box;
-  width: 100%;
+  background: var(--color-surface) !important;
+  width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: -50vw !important;
+  margin-right: -50vw !important;
+  padding: 48px 0 72px 0 !important;
+  box-sizing: border-box !important;
 }
 
 .whoiscrm-pricing-hero-badge {
@@ -830,7 +835,7 @@
   stroke-width: 3;
 }
 
-/* Country Plans Grid */
+/* ─── Country Plans Grid — Modern Card Design ───────────────────────────── */
 .whoiscrm-pricing-countries-title {
   text-align: center;
   font-size: 1.625rem !important;
@@ -843,26 +848,95 @@
 .whoiscrm-pricing-countries-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 24px;
   margin-bottom: 56px;
 }
 
-.whoiscrm-pricing-country-card {
-  background: #fff !important;
-  border: 1px solid #E8E8EF !important;
-  border-radius: 16px !important;
-  padding: 20px !important;
-  box-shadow: 0 2px 6px rgba(10,10,11,0.03) !important;
+.whoiscrm-pricing-country-card-modern {
+  background: #FFFFFF !important;
+  border: 1.5px solid #E8E8EF !important;
+  border-radius: 20px !important;
+  padding: 24px !important;
+  box-shadow: 0 4px 12px rgba(10,10,11,0.03) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  transition: all 250ms ease-out !important;
+  position: relative;
+}
+
+.whoiscrm-pricing-country-card-modern:hover {
+  border-color: #FF6621 !important;
+  transform: translateY(-4px) !important;
+  box-shadow: 0 14px 28px rgba(10,10,11,0.08) !important;
+}
+
+.whoiscrm-country-card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: all 180ms ease-out !important;
+  margin-bottom: 14px;
 }
 
-.whoiscrm-pricing-country-card:hover {
-  border-color: #FF6621 !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(10,10,11,0.06) !important;
+.whoiscrm-country-flag-badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.whoiscrm-country-card-title {
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  color: #0A0A0B !important;
+  margin: 0 0 4px 0 !important;
+}
+
+.whoiscrm-tld-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0 20px 0;
+}
+
+.whoiscrm-tld-pill {
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  color: #5C5C6B !important;
+  background: rgba(10,10,11,0.04) !important;
+  padding: 3px 8px !important;
+  border-radius: 6px !important;
+}
+
+.whoiscrm-country-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.whoiscrm-country-card-price {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+.whoiscrm-country-card-price .price-val {
+  font-size: 1.625rem !important;
+  font-weight: 800 !important;
+  color: #0A0A0B !important;
+  line-height: 1;
+}
+.whoiscrm-country-card-price .price-cycle {
+  font-size: 0.8125rem !important;
+  color: #9898A8 !important;
+  font-weight: 500;
 }
 
 .whoiscrm-country-flag-title {
